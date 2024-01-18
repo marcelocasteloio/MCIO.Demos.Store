@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+
+  mcio-demos-store-ports-client-web-bff:
+    build:
+      context: ./src/Ports/ClientWebBFF
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-ports-client-web-bff"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 6000:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-client-mobile-bff:
+    build:
+      context: ./src/Ports/ClientMobileBFF
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-ports-client-mobile-bff"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 6002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-admin-web-bff:
+    build:
+      context: ./src/Ports/AdminWebBFF
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-ports-admin-web-bff"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 6004:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-admin-mobile-bff:
+    build:
+      context: ./src/Ports/AdminMobileBFF
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-ports-admin-mobile-bff"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 6006:80
+    networks:
+      - mcio-demos-store
+
+networks:
+  mcio-demos-store:
+    driver: bridge
