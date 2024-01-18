@@ -1,4 +1,4 @@
-@MCIO.Demos.Store.Ports.ClientMobileBFF_HostAddress = http://localhost:6002
+@MCIO.Demos.Store.Ports.ClientMobileBFF_HostAddress = http://localhost:6004
 
 GET {{MCIO.Demos.Store.Ports.ClientMobileBFF_HostAddress}}/weatherforecast/
 Accept: application/json
