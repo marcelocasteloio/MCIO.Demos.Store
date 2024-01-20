@@ -183,6 +183,153 @@ services:
     networks:
       - mcio-demos-store
 
+  mcio-demos-store-postgres:
+    image: postgres:16.1
+    container_name: mcio-demos-store-postgres
+    environment:
+      POSTGRES_USER: mcio
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: mcio-demos-store
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    volumes:
+      - /mcio/demos/store/docker/volumes/postgres/data:/var/lib/postgresql/data
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: mcio-demos-store-postgres-exporter
+    restart: unless-stopped
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: "postgresql://mcio:123456@mcio-demos-store-postgres:5432/?sslmode=disable"
+    depends_on:
+      - mcio-demos-store-postgres
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-pgadmin:
+    image: dpage/pgadmin4:8.2
+    container_name: mcio-demos-store-pgadmin
+    restart: unless-stopped
+    user: root
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "mcio@marcelocastelo.io"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - 8080:80
+    depends_on:
+      - mcio-demos-store-postgres
+    volumes:
+      - /mcio/demos/store/docker/volumes/pgadmin/data:/var/lib/pgadmin
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo:
+    image: mongo:6.0.13
+    container_name: mcio-demos-store-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mcio
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+    volumes:
+      - /mcio/demos/store/docker/volumes/mongo/data:/data/db
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo-exporter:
+    image: percona/mongodb_exporter:2.37.0
+    container_name: mcio-demos-store-mongo-exporter
+    restart: unless-stopped
+    command:
+      - "--mongodb.uri=mongodb://mcio:123456@mcio-demos-store-mongo:27017" 
+      - --discovering-mode 
+      - --mongodb.direct-connect 
+      - --collect-all
+      - --compatible-mode
+    ports:
+      - 9216:9216
+    depends_on:
+      - mcio-demos-store-mongo
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: mcio-demos-store-mongo-express
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mcio-demos-store-mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mcio
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+      ME_CONFIG_BASICAUTH_USERNAME: mcio
+      ME_CONFIG_BASICAUTH_PASSWORD: 123456
+      ME_CONFIG_SITE_SSL_ENABLED: false
+    depends_on:
+      - mcio-demos-store-mongo
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis:
+    image: redis:7.2.4
+    container_name: mcio-demos-store-redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --maxmemory 268435456
+    volumes: 
+      - /mcio/demos/store/docker/volumes/redis/data:/data
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis-exporter:
+    image: oliver006/redis_exporter:v1.56.0-alpine
+    container_name: mcio-demos-store-redis-exporter
+    restart: unless-stopped
+    ports:
+      - 9121:9121
+    depends_on:
+      - mcio-demos-store-redis
+    environment:
+      REDIS_ADDR: "mcio-demos-store-redis:6379"
+      REDIS_USER: null
+      REDIS_PASSWORD: null
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis-insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: mcio-demos-store-redis-insight
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    depends_on:
+      - mcio-demos-store-redis
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: mcio-demos-store-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: mcio
+      RABBITMQ_DEFAULT_PASS: 123456
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+    networks:
+      - mcio-demos-store
+
 networks:
   mcio-demos-store:
     driver: bridge
