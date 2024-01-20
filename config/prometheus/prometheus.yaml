@@ -1,5 +1,6 @@
 global:
-  scrape_interval: 1s
+  scrape_interval: 5s
+  scrape_timeout: 5s
   evaluation_interval: 1s
 
 scrape_configs:
@@ -33,7 +34,6 @@ scrape_configs:
       vhost: ['/']
   
   - job_name: 'mcio-demos-store-zipkin'
-    scrape_interval: 5s
     metrics_path: '/prometheus'
     static_configs:
       - targets: ['mcio-demos-store-zipkin:9411']
