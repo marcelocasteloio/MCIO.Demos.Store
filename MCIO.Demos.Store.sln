@@ -59,8 +59,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Delivery.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Pricing.WebApi", "src\Contexts\Pricing\WebApi\MCIO.Demos.Store.Pricing.WebApi.csproj", "{7C677F28-BA10-4937-BBA7-B854519155FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Payment.Processor", "src\Contexts\Payment\Processor\MCIO.Demos.Store.Payment.Processor.csproj", "{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.BuildingBlock.Core", "src\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj", "{848B1F5E-DCE8-4AE6-B993-89887A69A6B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8956B89-CF32-4178-BF4E-93A7E1BC8546}"
@@ -68,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Payment.WebApi", "src\Contexts\Payment\WebApi\MCIO.Demos.Store.Payment.WebApi.csproj", "{18F2ADD4-8CA7-4494-8306-4D4827A911AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,14 +127,14 @@ Global
 		{7C677F28-BA10-4937-BBA7-B854519155FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C677F28-BA10-4937-BBA7-B854519155FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C677F28-BA10-4937-BBA7-B854519155FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,8 +167,8 @@ Global
 		{EA260982-4422-4428-871E-E70333ED35BC} = {E96798CB-FA54-40A5-827F-D07F3DFB338D}
 		{97F97D01-78F5-4939-9409-C06F08303986} = {DFD5AEF0-25A6-49DE-B565-A82E4863BBF1}
 		{7C677F28-BA10-4937-BBA7-B854519155FC} = {11CA04C4-467E-463E-AC4B-758F44CC407A}
-		{B923A3D1-CAC4-4907-98AB-B7D17BEDD79F} = {6BB34B27-9280-4E79-ADB1-C01FF4BABEE9}
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3} = {40180110-DBB8-4A6F-A78D-F6D771DF4A30}
+		{18F2ADD4-8CA7-4494-8306-4D4827A911AF} = {6BB34B27-9280-4E79-ADB1-C01FF4BABEE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7E5C8CF-AC27-4F01-99B7-63B7AA48FB13}

@@ -1,0 +1,6 @@
+@MCIO.Demos.Store.Payment.WebApi_HostAddress = http://localhost:5294
+
+GET {{MCIO.Demos.Store.Payment.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -53,6 +53,136 @@ services:
     networks:
       - mcio-demos-store
 
+  mcio-demos-store-gateways-general:
+    build:
+      context: ./src/Gateways/General
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-gateways-general"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 7002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-identity-web-api:
+    build:
+      context: ./src/Contexts/Identity/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-identity-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-customer-web-api:
+    build:
+      context: ./src/Contexts/Customer/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-customer-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8102:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-product-web-api:
+    build:
+      context: ./src/Contexts/Product/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-product-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8202:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-catalog-web-api:
+    build:
+      context: ./src/Contexts/Catalog/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-catalog-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8302:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ordering-web-api:
+    build:
+      context: ./src/Contexts/Ordering/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-ordering-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8402:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-basket-web-api:
+    build:
+      context: ./src/Contexts/Basket/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-basket-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8502:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-delivery-web-api:
+    build:
+      context: ./src/Contexts/Delivery/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-delivery-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8602:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-pricing-web-api:
+    build:
+      context: ./src/Contexts/Pricing/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-pricing-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8702:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-payment-web-api:
+    build:
+      context: ./src/Contexts/Payment/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-payment-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8802:80
+    networks:
+      - mcio-demos-store
+
 networks:
   mcio-demos-store:
     driver: bridge
