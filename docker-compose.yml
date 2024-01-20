@@ -183,6 +183,19 @@ services:
     networks:
       - mcio-demos-store
 
+  mcio-demos-store-notification-web-api:
+    build:
+      context: ./src/Contexts/Notification/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-notification-web-api"
+    environment:
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "http://+:80"
+    ports:
+        - 8902:80
+    networks:
+      - mcio-demos-store
+
   mcio-demos-store-postgres:
     image: postgres:16.1
     container_name: mcio-demos-store-postgres

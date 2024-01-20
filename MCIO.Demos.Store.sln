@@ -69,6 +69,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Payment.WebApi", "src\Contexts\Payment\WebApi\MCIO.Demos.Store.Payment.WebApi.csproj", "{18F2ADD4-8CA7-4494-8306-4D4827A911AF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{0B2B3968-1832-408A-BA3D-137E5F114F8C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Notification.WebApi", "src\Contexts\Notification\WebApi\MCIO.Demos.Store.Notification.WebApi.csproj", "{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,10 @@ Global
 		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18F2ADD4-8CA7-4494-8306-4D4827A911AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -169,6 +177,8 @@ Global
 		{7C677F28-BA10-4937-BBA7-B854519155FC} = {11CA04C4-467E-463E-AC4B-758F44CC407A}
 		{848B1F5E-DCE8-4AE6-B993-89887A69A6B3} = {40180110-DBB8-4A6F-A78D-F6D771DF4A30}
 		{18F2ADD4-8CA7-4494-8306-4D4827A911AF} = {6BB34B27-9280-4E79-ADB1-C01FF4BABEE9}
+		{0B2B3968-1832-408A-BA3D-137E5F114F8C} = {B5963FCB-2F7D-4253-9A9D-94D71C4E1BBC}
+		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA} = {0B2B3968-1832-408A-BA3D-137E5F114F8C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7E5C8CF-AC27-4F01-99B7-63B7AA48FB13}
