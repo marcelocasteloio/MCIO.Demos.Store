@@ -64,6 +64,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8956B89-CF32-4178-BF4E-93A7E1BC8546}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		config\nginx\nginx.conf = config\nginx\nginx.conf
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -72,6 +73,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{0B2B3968-1832-408A-BA3D-137E5F114F8C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Notification.WebApi", "src\Contexts\Notification\WebApi\MCIO.Demos.Store.Notification.WebApi.csproj", "{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analytics", "Analytics", "{9DDD0B80-4672-4BEE-A834-A79DBBDA6942}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Analytics.WebApi", "src\Contexts\Analytics\WebApi\MCIO.Demos.Store.Analytics.WebApi.csproj", "{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +148,10 @@ Global
 		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +188,8 @@ Global
 		{18F2ADD4-8CA7-4494-8306-4D4827A911AF} = {6BB34B27-9280-4E79-ADB1-C01FF4BABEE9}
 		{0B2B3968-1832-408A-BA3D-137E5F114F8C} = {B5963FCB-2F7D-4253-9A9D-94D71C4E1BBC}
 		{708367E7-9A9A-48DD-98C1-61CA33EAC5EA} = {0B2B3968-1832-408A-BA3D-137E5F114F8C}
+		{9DDD0B80-4672-4BEE-A834-A79DBBDA6942} = {B5963FCB-2F7D-4253-9A9D-94D71C4E1BBC}
+		{81F1D7FE-5E64-4E2E-8205-311F9A4A13F7} = {9DDD0B80-4672-4BEE-A834-A79DBBDA6942}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7E5C8CF-AC27-4F01-99B7-63B7AA48FB13}
