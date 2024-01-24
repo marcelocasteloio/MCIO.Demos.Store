@@ -1,6 +1,0 @@
-@MCIO.Demos.Store.Customer.WebApi_HostAddress = http://localhost:5272
-
-GET {{MCIO.Demos.Store.Customer.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

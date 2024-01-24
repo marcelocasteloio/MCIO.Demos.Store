@@ -9,14 +9,6 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:8031"
-    },
-    "WSL": {
-      "commandName": "WSL2",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8031"
-      },
-      "distributionName": ""
     }
   }
 }

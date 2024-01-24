@@ -21,6 +21,10 @@ services:
       - mcio-demos-store-contexts-identity-2
       - mcio-demos-store-contexts-customer-1
       - mcio-demos-store-contexts-customer-2
+      - mcio-demos-store-contexts-product-1
+      - mcio-demos-store-contexts-product-2
+      - mcio-demos-store-contexts-catalog-1
+      - mcio-demos-store-contexts-catalog-2
     ports:
       - 5000:80
     networks:
@@ -158,6 +162,44 @@ services:
     container_name: "mcio-demos-store-contexts-customer-2"
     ports:
       - 8013:80
+
+  mcio-demos-store-contexts-product-1: &mcio-demos-store-contexts-product
+    build:
+      context: ./src/Contexts/Product/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-contexts-product-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8022:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-product-2:
+    <<: *mcio-demos-store-contexts-product
+    container_name: "mcio-demos-store-contexts-product-2"
+    ports:
+      - 8023:80
+
+  mcio-demos-store-contexts-catalog-1: &mcio-demos-store-contexts-catalog
+    build:
+      context: ./src/Contexts/Catalog/WebApi
+      dockerfile: Dockerfile
+    container_name: "mcio-demos-store-contexts-catalog-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8032:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-catalog-2:
+    <<: *mcio-demos-store-contexts-catalog
+    container_name: "mcio-demos-store-contexts-catalog-2"
+    ports:
+      - 8033:80
 
   mcio-demos-store-postgres:
     image: postgres:16.1
