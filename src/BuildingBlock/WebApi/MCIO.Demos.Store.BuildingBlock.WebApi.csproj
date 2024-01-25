@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
+	  <PackageReference Include="MCIO.Demos.Store.BuildingBlock.Core" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

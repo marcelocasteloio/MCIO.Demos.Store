@@ -1,4 +1,7 @@
-﻿using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
+﻿using MCIO.Demos.Store.Basket.WebApi.Services;
+using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
+using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models.Enums;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace MCIO.Demos.Store.Basket.WebApi.HealthCheck;
 
@@ -11,6 +14,13 @@ public class Readiness
     // Protected Methods
     protected override Task CheckHealthInternalAsync(Dictionary<string, object> serviceStatusDictionary)
     {
-        return Task.CompletedTask;
+        return Task.FromResult(
+            StartupService.HasStarted
+                ? HealthCheckResult.Healthy()
+                : new HealthCheckResult(
+                    status: HealthStatus.Unhealthy,
+                    data: new Dictionary<string, object>() { { NOT_READY, ServiceStatus.Unhealthy } }
+                )
+        );
     }
 }

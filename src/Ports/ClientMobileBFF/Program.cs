@@ -1,10 +1,13 @@
 using Asp.Versioning;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
+using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
+using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.Config;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.HealthCheck;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -30,12 +33,17 @@ builder.Services
 
 // Controllers
 builder.Services
-    .AddControllers()
+    .AddControllers(options => {
+        options.Conventions.Add(
+            new RouteTokenTransformerConvention(new SlugifyParameterTransformer())    
+        );
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNamingPolicy = new KebabCaseNamingPolicy();
     });
 
 // API versioning
