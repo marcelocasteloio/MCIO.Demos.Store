@@ -1,6 +1,0 @@
-@MCIO.Demos.Store.Ports.ClientWebBFF_HostAddress = http://localhost:6002
-
-GET {{MCIO.Demos.Store.Ports.ClientWebBFF_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

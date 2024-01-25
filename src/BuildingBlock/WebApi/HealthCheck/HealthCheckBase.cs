@@ -5,6 +5,11 @@ namespace MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 public abstract class HealthCheckBase
     : IHealthCheck
 {
+    // Constants
+    public const string HEALTH_CHECK_STARTUP_TAG = "startup";
+    public const string HEALTH_CHECK_READINESS_TAG = "readiness";
+    public const string HEALTH_CHECK_LIVENESS_TAG = "liveness";
+
     // Public Methods
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
