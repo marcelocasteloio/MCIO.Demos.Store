@@ -8,4 +8,4 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
-ENTRYPOINT ["dotnet", "MCIO.Demos.Store.Ordering.WebApi.dll"]
+ENTRYPOINT ["dotnet", "MCIO.Demos.Store.Order.WebApi.dll"]

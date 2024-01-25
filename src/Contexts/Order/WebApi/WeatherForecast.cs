@@ -1,4 +1,4 @@
-namespace MCIO.Demos.Store.Ordering.WebApi;
+namespace MCIO.Demos.Store.Order.WebApi;
 
 public class WeatherForecast
 {

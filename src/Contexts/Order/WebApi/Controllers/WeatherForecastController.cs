@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MCIO.Demos.Store.Ordering.WebApi.Controllers;
+namespace MCIO.Demos.Store.Order.WebApi.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
