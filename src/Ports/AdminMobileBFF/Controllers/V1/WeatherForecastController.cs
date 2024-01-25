@@ -1,17 +1,26 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Controllers;
+namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Controllers.V1;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1")]
-public class WeatherForecastController 
+public class WeatherForecastController
     : ControllerBase
 {
     private static readonly string[] Summaries =
     [
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        "Freezing",
+        "Bracing",
+        "Chilly",
+        "Cool",
+        "Mild",
+        "Warm",
+        "Balmy",
+        "Hot",
+        "Sweltering",
+        "Scorching"
     ];
 
     private readonly ILogger<WeatherForecastController> _logger;

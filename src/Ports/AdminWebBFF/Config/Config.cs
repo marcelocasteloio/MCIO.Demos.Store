@@ -1,8 +1,7 @@
-﻿
-using MCIO.Demos.Store.Ports.AdminMobileBFF.Config.HealthCheck;
+﻿using MCIO.Demos.Store.Ports.AdminWebBFF.Config.HealthCheck;
 using System.ComponentModel.DataAnnotations;
 
-namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Config;
+namespace MCIO.Demos.Store.Ports.AdminWebBFF.Config;
 
 public class Config
 {

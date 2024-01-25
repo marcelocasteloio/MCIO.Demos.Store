@@ -19,8 +19,4 @@
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Controllers\V1\" />
-	</ItemGroup>
-
 </Project>

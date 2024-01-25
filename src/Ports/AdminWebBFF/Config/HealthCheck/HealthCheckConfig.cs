@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Config.HealthCheck;
+namespace MCIO.Demos.Store.Ports.AdminWebBFF.Config.HealthCheck;
 
 public class HealthCheckConfig
 {
