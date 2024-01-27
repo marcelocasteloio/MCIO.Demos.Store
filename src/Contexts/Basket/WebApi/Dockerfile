@@ -1,7 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+
+COPY ./NuGet.Config ./
+COPY ./nuget/ ./nuget/
+
 WORKDIR /App
 
-COPY . ./
+COPY ./src/Contexts/Basket/WebApi ./
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
 

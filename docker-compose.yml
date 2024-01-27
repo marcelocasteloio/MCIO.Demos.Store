@@ -19,26 +19,26 @@ services:
       - mcio-demos-store-gateways-general-2
       - mcio-demos-store-contexts-identity-1
       - mcio-demos-store-contexts-identity-2
-      - mcio-demos-store-contexts-customer-1
-      - mcio-demos-store-contexts-customer-2
-      - mcio-demos-store-contexts-product-1
-      - mcio-demos-store-contexts-product-2
-      - mcio-demos-store-contexts-catalog-1
-      - mcio-demos-store-contexts-catalog-2
-      - mcio-demos-store-contexts-order-1
-      - mcio-demos-store-contexts-order-2
-      - mcio-demos-store-contexts-basket-1
-      - mcio-demos-store-contexts-basket-2
-      - mcio-demos-store-contexts-delivery-1
-      - mcio-demos-store-contexts-delivery-2
-      - mcio-demos-store-contexts-pricing-1
-      - mcio-demos-store-contexts-pricing-2
-      - mcio-demos-store-contexts-payment-1
-      - mcio-demos-store-contexts-payment-2
-      - mcio-demos-store-contexts-notification-1
-      - mcio-demos-store-contexts-notification-2
-      - mcio-demos-store-contexts-analytics-1
-      - mcio-demos-store-contexts-analytics-2
+      # - mcio-demos-store-contexts-customer-1
+      # - mcio-demos-store-contexts-customer-2
+      # - mcio-demos-store-contexts-product-1
+      # - mcio-demos-store-contexts-product-2
+      # - mcio-demos-store-contexts-catalog-1
+      # - mcio-demos-store-contexts-catalog-2
+      # - mcio-demos-store-contexts-order-1
+      # - mcio-demos-store-contexts-order-2
+      # - mcio-demos-store-contexts-basket-1
+      # - mcio-demos-store-contexts-basket-2
+      # - mcio-demos-store-contexts-delivery-1
+      # - mcio-demos-store-contexts-delivery-2
+      # - mcio-demos-store-contexts-pricing-1
+      # - mcio-demos-store-contexts-pricing-2
+      # - mcio-demos-store-contexts-payment-1
+      # - mcio-demos-store-contexts-payment-2
+      # - mcio-demos-store-contexts-notification-1
+      # - mcio-demos-store-contexts-notification-2
+      # - mcio-demos-store-contexts-analytics-1
+      # - mcio-demos-store-contexts-analytics-2
     ports:
       - 5000:80
     networks:
@@ -46,8 +46,7 @@ services:
 
   mcio-demos-store-ports-client-web-bff-1: &mcio-demos-store-ports-client-web-bff
     build:
-      context: ./src/Ports/ClientWebBFF
-      dockerfile: Dockerfile
+      dockerfile: ./src/Ports/ClientWebBFF/Dockerfile
     container_name: "mcio-demos-store-ports-client-web-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -65,8 +64,7 @@ services:
 
   mcio-demos-store-ports-client-mobile-bff-1: &mcio-demos-store-ports-client-mobile-bff
     build:
-      context: ./src/Ports/ClientMobileBFF
-      dockerfile: Dockerfile
+      dockerfile: ./src/Ports/ClientMobileBFF/Dockerfile
     container_name: "mcio-demos-store-ports-client-mobile-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -84,8 +82,7 @@ services:
 
   mcio-demos-store-ports-admin-web-bff-1: &mcio-demos-store-ports-admin-web-bff
     build:
-      context: ./src/Ports/AdminWebBFF
-      dockerfile: Dockerfile
+      dockerfile: ./src/Ports/AdminWebBFF/Dockerfile
     container_name: "mcio-demos-store-ports-admin-web-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -103,8 +100,7 @@ services:
 
   mcio-demos-store-ports-admin-mobile-bff-1: &mcio-demos-store-ports-admin-mobile-bff
     build:
-      context: ./src/Ports/AdminMobileBFF
-      dockerfile: Dockerfile
+      dockerfile: ./src/Ports/AdminMobileBFF/Dockerfile
     container_name: "mcio-demos-store-ports-admin-mobile-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -122,8 +118,7 @@ services:
 
   mcio-demos-store-gateways-general-1: &mcio-demos-store-gateways-general
     build:
-      context: ./src/Gateways/General
-      dockerfile: Dockerfile
+      dockerfile: ./src/Gateways/General/Dockerfile
     container_name: "mcio-demos-store-gateways-general-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -141,8 +136,7 @@ services:
 
   mcio-demos-store-contexts-identity-1: &mcio-demos-store-contexts-identity
     build:
-      context: ./src/Contexts/Identity/WebApi
-      dockerfile: Dockerfile
+      dockerfile: ./src/Contexts/Identity/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-identity-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -158,195 +152,185 @@ services:
     ports:
       - 8003:80
 
-  mcio-demos-store-contexts-customer-1: &mcio-demos-store-contexts-customer
-    build:
-      context: ./src/Contexts/Customer/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-customer-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8012:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-customer-1: &mcio-demos-store-contexts-customer
+  #   build:
+  #     dockerfile: ./src/Contexts/Customer/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-customer-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8012:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-customer-2:
-    <<: *mcio-demos-store-contexts-customer
-    container_name: "mcio-demos-store-contexts-customer-2"
-    ports:
-      - 8013:80
+  # mcio-demos-store-contexts-customer-2:
+  #   <<: *mcio-demos-store-contexts-customer
+  #   container_name: "mcio-demos-store-contexts-customer-2"
+  #   ports:
+  #     - 8013:80
 
-  mcio-demos-store-contexts-product-1: &mcio-demos-store-contexts-product
-    build:
-      context: ./src/Contexts/Product/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-product-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8022:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-product-1: &mcio-demos-store-contexts-product
+  #   build:
+  #     dockerfile: ./src/Contexts/Product/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-product-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8022:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-product-2:
-    <<: *mcio-demos-store-contexts-product
-    container_name: "mcio-demos-store-contexts-product-2"
-    ports:
-      - 8023:80
+  # mcio-demos-store-contexts-product-2:
+  #   <<: *mcio-demos-store-contexts-product
+  #   container_name: "mcio-demos-store-contexts-product-2"
+  #   ports:
+  #     - 8023:80
 
-  mcio-demos-store-contexts-catalog-1: &mcio-demos-store-contexts-catalog
-    build:
-      context: ./src/Contexts/Catalog/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-catalog-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8032:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-catalog-1: &mcio-demos-store-contexts-catalog
+  #   build:
+  #     dockerfile: ./src/Contexts/Catalog/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-catalog-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8032:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-catalog-2:
-    <<: *mcio-demos-store-contexts-catalog
-    container_name: "mcio-demos-store-contexts-catalog-2"
-    ports:
-      - 8033:80
+  # mcio-demos-store-contexts-catalog-2:
+  #   <<: *mcio-demos-store-contexts-catalog
+  #   container_name: "mcio-demos-store-contexts-catalog-2"
+  #   ports:
+  #     - 8033:80
 
-  mcio-demos-store-contexts-order-1: &mcio-demos-store-contexts-order
-    build:
-      context: ./src/Contexts/Order/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-order-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8042:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-order-1: &mcio-demos-store-contexts-order
+  #   build:
+  #     dockerfile: ./src/Contexts/Order/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-order-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8042:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-order-2:
-    <<: *mcio-demos-store-contexts-order
-    container_name: "mcio-demos-store-contexts-order-2"
-    ports:
-      - 8043:80
+  # mcio-demos-store-contexts-order-2:
+  #   <<: *mcio-demos-store-contexts-order
+  #   container_name: "mcio-demos-store-contexts-order-2"
+  #   ports:
+  #     - 8043:80
 
-  mcio-demos-store-contexts-basket-1: &mcio-demos-store-contexts-basket
-    build:
-      context: ./src/Contexts/Basket/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-basket-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8052:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-basket-1: &mcio-demos-store-contexts-basket
+  #   build:
+  #     dockerfile: ./src/Contexts/Basket/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-basket-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8052:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-basket-2:
-    <<: *mcio-demos-store-contexts-basket
-    container_name: "mcio-demos-store-contexts-basket-2"
-    ports:
-      - 8053:80
+  # mcio-demos-store-contexts-basket-2:
+  #   <<: *mcio-demos-store-contexts-basket
+  #   container_name: "mcio-demos-store-contexts-basket-2"
+  #   ports:
+  #     - 8053:80
 
-  mcio-demos-store-contexts-delivery-1: &mcio-demos-store-contexts-delivery
-    build:
-      context: ./src/Contexts/Delivery/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-delivery-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8062:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-delivery-1: &mcio-demos-store-contexts-delivery
+  #   build:
+  #     dockerfile: ./src/Contexts/Delivery/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-delivery-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8062:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-delivery-2:
-    <<: *mcio-demos-store-contexts-delivery
-    container_name: "mcio-demos-store-contexts-delivery-2"
-    ports:
-      - 8063:80
+  # mcio-demos-store-contexts-delivery-2:
+  #   <<: *mcio-demos-store-contexts-delivery
+  #   container_name: "mcio-demos-store-contexts-delivery-2"
+  #   ports:
+  #     - 8063:80
 
-  mcio-demos-store-contexts-pricing-1: &mcio-demos-store-contexts-pricing
-    build:
-      context: ./src/Contexts/Pricing/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-pricing-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8072:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-pricing-1: &mcio-demos-store-contexts-pricing
+  #   build:
+  #     dockerfile: ./src/Contexts/Pricing/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-pricing-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8072:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-pricing-2:
-    <<: *mcio-demos-store-contexts-pricing
-    container_name: "mcio-demos-store-contexts-pricing-2"
-    ports:
-      - 8073:80
+  # mcio-demos-store-contexts-pricing-2:
+  #   <<: *mcio-demos-store-contexts-pricing
+  #   container_name: "mcio-demos-store-contexts-pricing-2"
+  #   ports:
+  #     - 8073:80
 
-  mcio-demos-store-contexts-payment-1: &mcio-demos-store-contexts-payment
-    build:
-      context: ./src/Contexts/Payment/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-payment-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8082:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-payment-1: &mcio-demos-store-contexts-payment
+  #   build:
+  #     dockerfile: ./src/Contexts/Payment/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-payment-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8082:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-payment-2:
-    <<: *mcio-demos-store-contexts-payment
-    container_name: "mcio-demos-store-contexts-payment-2"
-    ports:
-      - 8083:80
+  # mcio-demos-store-contexts-payment-2:
+  #   <<: *mcio-demos-store-contexts-payment
+  #   container_name: "mcio-demos-store-contexts-payment-2"
+  #   ports:
+  #     - 8083:80
 
-  mcio-demos-store-contexts-notification-1: &mcio-demos-store-contexts-notification
-    build:
-      context: ./src/Contexts/Notification/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-notification-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8092:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-notification-1: &mcio-demos-store-contexts-notification
+  #   build:
+  #     dockerfile: ./src/Contexts/Notification/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-notification-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8092:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-notification-2:
-    <<: *mcio-demos-store-contexts-notification
-    container_name: "mcio-demos-store-contexts-notification-2"
-    ports:
-      - 8093:80
+  # mcio-demos-store-contexts-notification-2:
+  #   <<: *mcio-demos-store-contexts-notification
+  #   container_name: "mcio-demos-store-contexts-notification-2"
+  #   ports:
+  #     - 8093:80
 
-  mcio-demos-store-contexts-analytics-1: &mcio-demos-store-contexts-analytics
-    build:
-      context: ./src/Contexts/Analytics/WebApi
-      dockerfile: Dockerfile
-    container_name: "mcio-demos-store-contexts-analytics-1"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "http://+:80"
-    ports:
-      - 8102:80
-    networks:
-      - mcio-demos-store
+  # mcio-demos-store-contexts-analytics-1: &mcio-demos-store-contexts-analytics
+  #   build:
+  #     dockerfile: ./src/Contexts/Analytics/WebApi/Dockerfile
+  #   container_name: "mcio-demos-store-contexts-analytics-1"
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: "Development"
+  #     ASPNETCORE_URLS: "http://+:80"
+  #   ports:
+  #     - 8102:80
+  #   networks:
+  #     - mcio-demos-store
 
-  mcio-demos-store-contexts-analytics-2:
-    <<: *mcio-demos-store-contexts-analytics
-    container_name: "mcio-demos-store-contexts-analytics-2"
-    ports:
-      - 8103:80
+  # mcio-demos-store-contexts-analytics-2:
+  #   <<: *mcio-demos-store-contexts-analytics
+  #   container_name: "mcio-demos-store-contexts-analytics-2"
+  #   ports:
+  #     - 8103:80
 
   mcio-demos-store-postgres:
     image: postgres:16.1
