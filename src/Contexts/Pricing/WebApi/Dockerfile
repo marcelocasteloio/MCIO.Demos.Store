@@ -1,13 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 
-COPY ./NuGet.Config ./
-COPY ./nuget/ ./nuget/
-
 WORKDIR /App
- 
-COPY ./src/Contexts/Pricing/WebApi ./
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+
+COPY ./src ./
+RUN dotnet restore Contexts/Pricing/WebApi/MCIO.Demos.Store.Pricing.WebApi.csproj
+RUN dotnet publish Contexts/Pricing/WebApi/MCIO.Demos.Store.Pricing.WebApi.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App

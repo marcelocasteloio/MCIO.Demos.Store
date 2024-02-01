@@ -1,13 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 
-COPY ./NuGet.Config ./
-COPY ./nuget/ ./nuget/
-
 WORKDIR /App
 
-COPY ./src/Contexts/Notification/WebApi ./
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+COPY ./src ./
+RUN dotnet restore Contexts/Notification/WebApi/MCIO.Demos.Store.Notification.WebApi.csproj
+RUN dotnet publish Contexts/Notification/WebApi/MCIO.Demos.Store.Notification.WebApi.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App

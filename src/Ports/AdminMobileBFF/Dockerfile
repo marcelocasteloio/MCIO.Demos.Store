@@ -1,13 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 
-COPY ./NuGet.Config ./
-COPY ./nuget/ ./nuget/
-
 WORKDIR /App
 
-COPY ./src/Ports/AdminMobileBFF ./
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+COPY ./src ./
+RUN dotnet restore Ports/AdminMobileBFF/MCIO.Demos.Store.Ports.AdminMobileBFF.csproj
+RUN dotnet publish Ports/AdminMobileBFF/MCIO.Demos.Store.Ports.AdminMobileBFF.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
