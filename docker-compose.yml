@@ -1,0 +1,681 @@
+version: "3.9"
+services:
+
+  nginx:
+    image: nginx:1.25.3
+    container_name: "mcio-demos-store-nginx"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - mcio-demos-store-ports-client-web-bff-1
+      - mcio-demos-store-ports-client-web-bff-2
+      - mcio-demos-store-ports-client-mobile-bff-1
+      - mcio-demos-store-ports-client-mobile-bff-2
+      - mcio-demos-store-ports-admin-web-bff-1
+      - mcio-demos-store-ports-admin-web-bff-2
+      - mcio-demos-store-ports-admin-mobile-bff-1
+      - mcio-demos-store-ports-admin-mobile-bff-2
+      - mcio-demos-store-gateways-general-1
+      - mcio-demos-store-gateways-general-2
+      - mcio-demos-store-contexts-identity-1
+      - mcio-demos-store-contexts-identity-2
+      - mcio-demos-store-contexts-customer-1
+      - mcio-demos-store-contexts-customer-2
+      - mcio-demos-store-contexts-product-1
+      - mcio-demos-store-contexts-product-2
+      - mcio-demos-store-contexts-catalog-1
+      - mcio-demos-store-contexts-catalog-2
+      - mcio-demos-store-contexts-order-1
+      - mcio-demos-store-contexts-order-2
+      - mcio-demos-store-contexts-basket-1
+      - mcio-demos-store-contexts-basket-2
+      - mcio-demos-store-contexts-delivery-1
+      - mcio-demos-store-contexts-delivery-2
+      - mcio-demos-store-contexts-pricing-1
+      - mcio-demos-store-contexts-pricing-2
+      - mcio-demos-store-contexts-payment-1
+      - mcio-demos-store-contexts-payment-2
+      - mcio-demos-store-contexts-notification-1
+      - mcio-demos-store-contexts-notification-2
+      - mcio-demos-store-contexts-analytics-1
+      - mcio-demos-store-contexts-analytics-2
+      - mcio-demos-store-contexts-calendar-1
+      - mcio-demos-store-contexts-calendar-2
+    ports:
+      - 5000:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-client-web-bff-1: &mcio-demos-store-ports-client-web-bff
+    build:
+      dockerfile: ./src/Ports/ClientWebBFF/Dockerfile
+    container_name: "mcio-demos-store-ports-client-web-bff-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 6002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-client-web-bff-2:
+    <<: *mcio-demos-store-ports-client-web-bff
+    container_name: "mcio-demos-store-ports-client-web-bff-2"
+    ports:
+      - 6003:80
+
+  mcio-demos-store-ports-client-mobile-bff-1: &mcio-demos-store-ports-client-mobile-bff
+    build:
+      dockerfile: ./src/Ports/ClientMobileBFF/Dockerfile
+    container_name: "mcio-demos-store-ports-client-mobile-bff-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 6012:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-client-mobile-bff-2:
+    <<: *mcio-demos-store-ports-client-mobile-bff
+    container_name: "mcio-demos-store-ports-client-mobile-bff-2"
+    ports:
+      - 6013:80
+
+  mcio-demos-store-ports-admin-web-bff-1: &mcio-demos-store-ports-admin-web-bff
+    build:
+      dockerfile: ./src/Ports/AdminWebBFF/Dockerfile
+    container_name: "mcio-demos-store-ports-admin-web-bff-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 6022:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-admin-web-bff-2:
+    <<: *mcio-demos-store-ports-admin-web-bff
+    container_name: "mcio-demos-store-ports-admin-web-bff-2"
+    ports:
+      - 6023:80
+
+  mcio-demos-store-ports-admin-mobile-bff-1: &mcio-demos-store-ports-admin-mobile-bff
+    build:
+      dockerfile: ./src/Ports/AdminMobileBFF/Dockerfile
+    container_name: "mcio-demos-store-ports-admin-mobile-bff-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 6032:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-ports-admin-mobile-bff-2:
+    <<: *mcio-demos-store-ports-admin-mobile-bff
+    container_name: "mcio-demos-store-ports-admin-mobile-bff-2"
+    ports:
+      - 6033:80
+
+  mcio-demos-store-gateways-general-1: &mcio-demos-store-gateways-general
+    build:
+      dockerfile: ./src/Gateways/General/Dockerfile
+    container_name: "mcio-demos-store-gateways-general-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 7002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-gateways-general-2:
+    <<: *mcio-demos-store-gateways-general
+    container_name: "mcio-demos-store-gateways-general-2"
+    ports:
+      - 7003:80
+
+  mcio-demos-store-contexts-identity-1: &mcio-demos-store-contexts-identity
+    build:
+      dockerfile: ./src/Contexts/Identity/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-identity-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8002:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-identity-2:
+    <<: *mcio-demos-store-contexts-identity
+    container_name: "mcio-demos-store-contexts-identity-2"
+    ports:
+      - 8003:80
+
+  mcio-demos-store-contexts-customer-1: &mcio-demos-store-contexts-customer
+    build:
+      dockerfile: ./src/Contexts/Customer/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-customer-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8012:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-customer-2:
+    <<: *mcio-demos-store-contexts-customer
+    container_name: "mcio-demos-store-contexts-customer-2"
+    ports:
+      - 8013:80
+
+  mcio-demos-store-contexts-product-1: &mcio-demos-store-contexts-product
+    build:
+      dockerfile: ./src/Contexts/Product/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-product-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8022:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-product-2:
+    <<: *mcio-demos-store-contexts-product
+    container_name: "mcio-demos-store-contexts-product-2"
+    ports:
+      - 8023:80
+
+  mcio-demos-store-contexts-catalog-1: &mcio-demos-store-contexts-catalog
+    build:
+      dockerfile: ./src/Contexts/Catalog/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-catalog-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8032:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-catalog-2:
+    <<: *mcio-demos-store-contexts-catalog
+    container_name: "mcio-demos-store-contexts-catalog-2"
+    ports:
+      - 8033:80
+
+  mcio-demos-store-contexts-order-1: &mcio-demos-store-contexts-order
+    build:
+      dockerfile: ./src/Contexts/Order/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-order-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8042:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-order-2:
+    <<: *mcio-demos-store-contexts-order
+    container_name: "mcio-demos-store-contexts-order-2"
+    ports:
+      - 8043:80
+
+  mcio-demos-store-contexts-basket-1: &mcio-demos-store-contexts-basket
+    build:
+      dockerfile: ./src/Contexts/Basket/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-basket-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8052:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-basket-2:
+    <<: *mcio-demos-store-contexts-basket
+    container_name: "mcio-demos-store-contexts-basket-2"
+    ports:
+      - 8053:80
+
+  mcio-demos-store-contexts-delivery-1: &mcio-demos-store-contexts-delivery
+    build:
+      dockerfile: ./src/Contexts/Delivery/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-delivery-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8062:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-delivery-2:
+    <<: *mcio-demos-store-contexts-delivery
+    container_name: "mcio-demos-store-contexts-delivery-2"
+    ports:
+      - 8063:80
+
+  mcio-demos-store-contexts-pricing-1: &mcio-demos-store-contexts-pricing
+    build:
+      dockerfile: ./src/Contexts/Pricing/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-pricing-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8072:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-pricing-2:
+    <<: *mcio-demos-store-contexts-pricing
+    container_name: "mcio-demos-store-contexts-pricing-2"
+    ports:
+      - 8073:80
+
+  mcio-demos-store-contexts-payment-1: &mcio-demos-store-contexts-payment
+    build:
+      dockerfile: ./src/Contexts/Payment/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-payment-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8082:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-payment-2:
+    <<: *mcio-demos-store-contexts-payment
+    container_name: "mcio-demos-store-contexts-payment-2"
+    ports:
+      - 8083:80
+
+  mcio-demos-store-contexts-notification-1: &mcio-demos-store-contexts-notification
+    build:
+      dockerfile: ./src/Contexts/Notification/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-notification-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8092:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-notification-2:
+    <<: *mcio-demos-store-contexts-notification
+    container_name: "mcio-demos-store-contexts-notification-2"
+    ports:
+      - 8093:80
+
+  mcio-demos-store-contexts-analytics-1: &mcio-demos-store-contexts-analytics
+    build:
+      dockerfile: ./src/Contexts/Analytics/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-analytics-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8102:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-analytics-2:
+    <<: *mcio-demos-store-contexts-analytics
+    container_name: "mcio-demos-store-contexts-analytics-2"
+    ports:
+      - 8103:80
+
+  mcio-demos-store-contexts-calendar-1: &mcio-demos-store-contexts-calendar
+    build:
+      dockerfile: ./src/Contexts/Calendar/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-calendar-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8202:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-calendar-2:
+    <<: *mcio-demos-store-contexts-calendar
+    container_name: "mcio-demos-store-contexts-calendar-2"
+    ports:
+      - 8203:80
+
+  mcio-demos-store-postgres:
+    image: postgres:16.1
+    container_name: mcio-demos-store-postgres
+    environment:
+      POSTGRES_USER: mcio
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: mcio-demos-store
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    volumes:
+      - /mcio/demos/store/docker/volumes/postgres/data:/var/lib/postgresql/data
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: mcio-demos-store-postgres-exporter
+    restart: unless-stopped
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: "postgresql://mcio:123456@mcio-demos-store-postgres:5432/?sslmode=disable"
+    depends_on:
+      - mcio-demos-store-postgres
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-pgadmin:
+    image: dpage/pgadmin4:8.2
+    container_name: mcio-demos-store-pgadmin
+    restart: unless-stopped
+    user: root
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "mcio@marcelocastelo.io"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - 8080:80
+    depends_on:
+      - mcio-demos-store-postgres
+    volumes:
+      - /mcio/demos/store/docker/volumes/pgadmin/data:/var/lib/pgadmin
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo:
+    image: mongo:6.0.13
+    container_name: mcio-demos-store-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mcio
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+    volumes:
+      - /mcio/demos/store/docker/volumes/mongo/data:/data/db
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo-exporter:
+    image: percona/mongodb_exporter:2.37.0
+    container_name: mcio-demos-store-mongo-exporter
+    restart: unless-stopped
+    command:
+      - "--mongodb.uri=mongodb://mcio:123456@mcio-demos-store-mongo:27017" 
+      - --discovering-mode 
+      - --mongodb.direct-connect 
+      - --collect-all
+      - --compatible-mode
+    ports:
+      - 9216:9216
+    depends_on:
+      - mcio-demos-store-mongo
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: mcio-demos-store-mongo-express
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mcio-demos-store-mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mcio
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+      ME_CONFIG_BASICAUTH_USERNAME: mcio
+      ME_CONFIG_BASICAUTH_PASSWORD: 123456
+      ME_CONFIG_SITE_SSL_ENABLED: false
+    depends_on:
+      - mcio-demos-store-mongo
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis:
+    image: redis:7.2.4
+    container_name: mcio-demos-store-redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --maxmemory 268435456
+    volumes: 
+      - /mcio/demos/store/docker/volumes/redis/data:/data
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis-exporter:
+    image: oliver006/redis_exporter:v1.56.0-alpine
+    container_name: mcio-demos-store-redis-exporter
+    restart: unless-stopped
+    ports:
+      - 9121:9121
+    depends_on:
+      - mcio-demos-store-redis
+    environment:
+      REDIS_ADDR: "mcio-demos-store-redis:6379"
+      REDIS_USER: null
+      REDIS_PASSWORD: null
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-redis-insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: mcio-demos-store-redis-insight
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    depends_on:
+      - mcio-demos-store-redis
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: mcio-demos-store-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: mcio
+      RABBITMQ_DEFAULT_PASS: 123456
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-seq:
+    image: datalust/seq:2023.4
+    container_name: mcio-demos-store-seq
+    restart: unless-stopped
+    ports:
+      - 5341:5341
+      - 5342:80
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_API_KEY: "123456"
+    volumes:
+      - /mcio/demos/store/docker/volumes/seq/data:/data
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-zipkin:
+    image: openzipkin/zipkin:3
+    container_name: mcio-demos-store-zipkin
+    restart: unless-stopped
+    ports:
+      - 9411:9411
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-otel-collector:
+    image: otel/opentelemetry-collector:0.92.0
+    container_name: mcio-demos-store-otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./config/open-telemetry/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - 8888:8888   # Prometheus metrics exposed by the collector
+      - 8889:8889   # Prometheus exporter metrics
+      - 4317:4317   # OTLP gRPC receiver
+      - 4318:4318   # OTLP http receiver
+    depends_on:
+      - mcio-demos-store-zipkin
+      - mcio-demos-store-seq
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    container_name: mcio-demos-store-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_JMX_PORT: 9101
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-kafka-broker:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: mcio-demos-store-kafka-broker
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    depends_on:
+      - mcio-demos-store-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'mcio-demos-store-zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://mcio-demos-store-kafka-broker:29092,PLAINTEXT_INTERNAL://localhost:9092
+      KAFKA_ADVERTISED_HOST_NAME: "mcio-demos-store-kafka-broker"
+      KAFKA_LISTENERS: PLAINTEXT://:29092, PLAINTEXT_INTERNAL://:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9101
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-kafka-exporter:
+    image: danielqsj/kafka-exporter:v1.7.0
+    container_name: mcio-demos-store-kafka-exporter
+    restart: unless-stopped
+    ports:
+      - "9308:9308"
+    command: "--kafka.server=mcio-demos-store-kafka-broker:29092 --zookeeper.server=mcio-demos-store-zookeeper:2181"
+    depends_on:
+      - mcio-demos-store-kafka-broker
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-kafka-manager:
+    image: hlebalbau/kafka-manager:3.0.0.5-7e7a22e
+    container_name: mcio-demos-store-kafka-manager
+    restart: unless-stopped
+    depends_on:
+      - mcio-demos-store-zookeeper
+    ports:
+      - 9001:9000
+    environment:
+      ZK_HOSTS: "mcio-demos-store-zookeeper:2181"
+      APPLICATION_SECRET: "123456"
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-vault:
+    image: vault:1.13.3
+    container_name: mcio-demos-store-vault
+    restart: unless-stopped
+    ports:
+      - "8201:8201"
+    environment:
+      VAULT_ADDR: 'https://0.0.0.0:8201'
+      VAULT_DEV_ROOT_TOKEN_ID: '123456'
+      VAULT_TOKEN: '123456'
+      VAULT_DEV_LISTEN_ADDRESS: '0.0.0.0:8201'
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - /mcio/demos/store/docker/volumes/vault/data:/data
+    healthcheck:
+      retries: 5
+    command: server -dev -dev-root-token-id="123456"
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-prometheus:
+    image: prom/prometheus:v2.49.1
+    container_name: mcio-demos-store-prometheus
+    restart: unless-stopped
+    depends_on:
+      - mcio-demos-store-postgres-exporter
+      - mcio-demos-store-redis-exporter
+      - mcio-demos-store-mongo-exporter 
+      - mcio-demos-store-rabbitmq
+      - mcio-demos-store-zipkin
+      - mcio-demos-store-otel-collector
+      - mcio-demos-store-kafka-exporter
+    ports:
+        - 9090:9090
+    volumes:
+        - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+        - /mcio/demos/store/docker/volumes/prometheus/data:/prometheus
+    user: "$UID:$GID"
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-grafana:
+    image: grafana/grafana:10.0.10
+    container_name: mcio-demos-store-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=123456
+    ports:
+      - 3000:3000
+    depends_on:
+      - mcio-demos-store-prometheus
+      - mcio-demos-store-postgres
+      - mcio-demos-store-redis
+    volumes:
+      - /mcio/demos/store/docker/volumes/grafana/data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    user: "$UID:$GID"
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-portainer:
+    image: portainer/portainer-ce:2.19.4-alpine
+    container_name: mcio-demos-store-portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mcio/demos/store/docker/volumes/portainer/data:/data
+    ports:
+      - 9000:9000
+    networks:
+      - mcio-demos-store
+
+networks:
+  mcio-demos-store:
+    driver: bridge
