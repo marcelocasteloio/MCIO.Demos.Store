@@ -39,6 +39,8 @@ services:
       - mcio-demos-store-contexts-notification-2
       - mcio-demos-store-contexts-analytics-1
       - mcio-demos-store-contexts-analytics-2
+      - mcio-demos-store-contexts-calendar-1
+      - mcio-demos-store-contexts-calendar-2
     ports:
       - 5000:80
     networks:
@@ -331,6 +333,24 @@ services:
     container_name: "mcio-demos-store-contexts-analytics-2"
     ports:
       - 8103:80
+
+  mcio-demos-store-contexts-calendar-1: &mcio-demos-store-contexts-calendar
+    build:
+      dockerfile: ./src/Contexts/Calendar/WebApi/Dockerfile
+    container_name: "mcio-demos-store-contexts-calendar-1"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - 8202:80
+    networks:
+      - mcio-demos-store
+
+  mcio-demos-store-contexts-calendar-2:
+    <<: *mcio-demos-store-contexts-calendar
+    container_name: "mcio-demos-store-contexts-calendar-2"
+    ports:
+      - 8203:80
 
   mcio-demos-store-postgres:
     image: postgres:16.1
