@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MCIO.Core.ExecutionInfo;
 using MCIO.Core.TenantInfo;
+using MCIO.Demos.Store.Ports.AdminMobileBFF.Config;
 using MCIO.Observability.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,31 +29,38 @@ public class WeatherForecastController
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly ITraceManager _traceManager;
+    private readonly HttpClient _httpClient;
+    private readonly Config.Config _config;
 
     public WeatherForecastController(
         ILogger<WeatherForecastController> logger,
-        ITraceManager traceManager
+        ITraceManager traceManager,
+        HttpClient httpClient,
+        Config.Config config
     )
     {
         _logger = logger;
         _traceManager = traceManager;
+        _httpClient = httpClient;
+        _config = config;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<WeatherForecast>?> GetAsync(CancellationToken cancellationToken)
     {
-        return _traceManager.StartInternalActivity(
+        return await _traceManager.StartInternalActivityAsync(
             name: "geração da previsão do tempo",
             executionInfo: ExecutionInfo.Create(Guid.NewGuid(), TenantInfo.FromExistingCode(Guid.NewGuid()).Output!.Value, "asd", "asd").Output!.Value,
-            handler: (activity, executionInfo) =>
+            handler: async (activity, executionInfo, cancellationToken) =>
             {
-                return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    TemperatureC = Random.Shared.Next(-20, 55),
-                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                });
-            }
+                var requestUri = $"{_config.Services.HttpServiceCollection.GeneralGateway.BaseUrl}/api/v1/weather-forecast";
+
+                return await _httpClient.GetFromJsonAsync<IEnumerable<WeatherForecast>>(
+                    requestUri, 
+                    cancellationToken
+                );
+            },
+            cancellationToken
         );
     }
 }
