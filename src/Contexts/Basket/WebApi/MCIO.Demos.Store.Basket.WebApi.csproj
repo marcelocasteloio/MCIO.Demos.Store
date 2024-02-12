@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<UserSecretsId>MCIO.Demos.Store.Basket.WebApi</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
