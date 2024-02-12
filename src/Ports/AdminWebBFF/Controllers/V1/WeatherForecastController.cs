@@ -1,4 +1,7 @@
 using Asp.Versioning;
+using MCIO.Core.ExecutionInfo;
+using MCIO.Core.TenantInfo;
+using MCIO.Observability.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCIO.Demos.Store.Ports.AdminWebBFF.Controllers.V1;
@@ -24,21 +27,32 @@ public class WeatherForecastController
     ];
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ITraceManager _traceManager;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(
+        ILogger<WeatherForecastController> logger,
+        ITraceManager traceManager
+    )
     {
         _logger = logger;
+        _traceManager = traceManager;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+        return _traceManager.StartInternalActivity(
+            name: "geração da previsão do tempo",
+            executionInfo: ExecutionInfo.Create(Guid.NewGuid(), TenantInfo.FromExistingCode(Guid.NewGuid()).Output!.Value, "asd", "asd").Output!.Value,
+            handler: (activity, executionInfo) =>
+            {
+                return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    TemperatureC = Random.Shared.Next(-20, 55),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                });
+            }
+        );
     }
 }
