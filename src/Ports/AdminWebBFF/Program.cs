@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using MCIO.Demos.Store.Ports.AdminWebBFF.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +28,10 @@ var assemblyName = Assembly.GetExecutingAssembly().GetName();
 
 var applicationName = assemblyName.Name!;
 var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
-var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
 
 // Config
 var config = builder.Configuration.Get<Config>()!;
+builder.Services.AddSingleton(config);
 
 #region [ Dependency Injection ]
 
@@ -138,6 +139,10 @@ builder.Services
             options.BatchExportProcessorOptions = batchExportProcessorOptions;
         })
     );
+
+// Services
+builder.Services
+    .AddScoped<IGeneralGatewayService, GeneralGatewayService>().AddHttpClient<GeneralGatewayService>();
 
 #endregion [ Dependency Injection ]
 

@@ -3,8 +3,8 @@ using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
 using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
-using MCIO.Demos.Store.Ports.ClientWebBFF.Config;
 using MCIO.Demos.Store.Ports.ClientWebBFF.HealthCheck;
+using MCIO.Demos.Store.Ports.ClientWebBFF.Config;
 using MCIO.Demos.Store.Ports.ClientWebBFF.Services;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using MCIO.Demos.Store.Ports.ClientWebBFF.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +28,10 @@ var assemblyName = Assembly.GetExecutingAssembly().GetName();
 
 var applicationName = assemblyName.Name!;
 var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
-var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
 
 // Config
 var config = builder.Configuration.Get<Config>()!;
+builder.Services.AddSingleton(config);
 
 #region [ Dependency Injection ]
 
@@ -138,6 +139,10 @@ builder.Services
             options.BatchExportProcessorOptions = batchExportProcessorOptions;
         })
     );
+
+// Services
+builder.Services
+    .AddScoped<IGeneralGatewayService, GeneralGatewayService>().AddHttpClient<GeneralGatewayService>();
 
 #endregion [ Dependency Injection ]
 
