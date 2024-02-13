@@ -44,14 +44,32 @@ services:
     ports:
       - 5000:80
     networks:
-      - mcio-demos-store
+      mcio-demos-store:
+        aliases:
+          - ports-client-web-bff.mcio-demos-store-nginx
+          - ports-client-mobile-bff.mcio-demos-store-nginx
+          - ports-admin-web-bff.mcio-demos-store-nginx
+          - ports-admin-mobile-bff.mcio-demos-store-nginx
+          - gateways-general.mcio-demos-store-nginx
+          - contexts-identity.mcio-demos-store-nginx
+          - contexts-customer.mcio-demos-store-nginx
+          - contexts-product.mcio-demos-store-nginx
+          - contexts-catalog.mcio-demos-store-nginx
+          - contexts-order.mcio-demos-store-nginx
+          - contexts-basket.mcio-demos-store-nginx
+          - contexts-delivery.mcio-demos-store-nginx
+          - contexts-pricing.mcio-demos-store-nginx
+          - contexts-payment.mcio-demos-store-nginx
+          - contexts-notification.mcio-demos-store-nginx
+          - contexts-analytics.mcio-demos-store-nginx
+          - contexts-calendar.mcio-demos-store-nginx
 
   mcio-demos-store-ports-client-web-bff-1: &mcio-demos-store-ports-client-web-bff
     build:
       dockerfile: ./src/Ports/ClientWebBFF/Dockerfile
     container_name: "mcio-demos-store-ports-client-web-bff-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 6002:80
@@ -69,7 +87,7 @@ services:
       dockerfile: ./src/Ports/ClientMobileBFF/Dockerfile
     container_name: "mcio-demos-store-ports-client-mobile-bff-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 6012:80
@@ -87,7 +105,7 @@ services:
       dockerfile: ./src/Ports/AdminWebBFF/Dockerfile
     container_name: "mcio-demos-store-ports-admin-web-bff-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 6022:80
@@ -105,7 +123,7 @@ services:
       dockerfile: ./src/Ports/AdminMobileBFF/Dockerfile
     container_name: "mcio-demos-store-ports-admin-mobile-bff-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 6032:80
@@ -123,7 +141,7 @@ services:
       dockerfile: ./src/Gateways/General/Dockerfile
     container_name: "mcio-demos-store-gateways-general-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 7002:80
@@ -141,7 +159,7 @@ services:
       dockerfile: ./src/Contexts/Identity/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-identity-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8002:80
@@ -159,7 +177,7 @@ services:
       dockerfile: ./src/Contexts/Customer/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-customer-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8012:80
@@ -177,7 +195,7 @@ services:
       dockerfile: ./src/Contexts/Product/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-product-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8022:80
@@ -195,7 +213,7 @@ services:
       dockerfile: ./src/Contexts/Catalog/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-catalog-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8032:80
@@ -213,7 +231,7 @@ services:
       dockerfile: ./src/Contexts/Order/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-order-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8042:80
@@ -231,7 +249,7 @@ services:
       dockerfile: ./src/Contexts/Basket/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-basket-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8052:80
@@ -249,7 +267,7 @@ services:
       dockerfile: ./src/Contexts/Delivery/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-delivery-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8062:80
@@ -267,7 +285,7 @@ services:
       dockerfile: ./src/Contexts/Pricing/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-pricing-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8072:80
@@ -285,7 +303,7 @@ services:
       dockerfile: ./src/Contexts/Payment/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-payment-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8082:80
@@ -303,7 +321,7 @@ services:
       dockerfile: ./src/Contexts/Notification/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-notification-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8092:80
@@ -321,7 +339,7 @@ services:
       dockerfile: ./src/Contexts/Analytics/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-analytics-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8102:80
@@ -339,7 +357,7 @@ services:
       dockerfile: ./src/Contexts/Calendar/WebApi/Dockerfile
     container_name: "mcio-demos-store-contexts-calendar-1"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production"
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - 8202:80
