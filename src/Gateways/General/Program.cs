@@ -6,6 +6,7 @@ using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
 using MCIO.Demos.Store.Gateways.General.Config;
 using MCIO.Demos.Store.Gateways.General.HealthCheck;
 using MCIO.Demos.Store.Gateways.General.Services;
+using MCIO.Demos.Store.Gateways.General.Services.Interfaces;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -33,6 +34,9 @@ var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") 
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Config
+builder.Services.AddSingleton(config);
 
 // Health check
 builder.Services
@@ -138,6 +142,20 @@ builder.Services
             options.BatchExportProcessorOptions = batchExportProcessorOptions;
         })
     );
+
+// Services
+builder.Services.AddScoped<IAnalyticsContextService, AnalyticsContextService>().AddHttpClient<AnalyticsContextService>();
+builder.Services.AddScoped<IBasketContextService, BasketContextService>().AddHttpClient<BasketContextService>();
+builder.Services.AddScoped<ICalendarContextService, CalendarContextService>().AddHttpClient<CalendarContextService>();
+builder.Services.AddScoped<ICatalogContextService, CatalogContextService>().AddHttpClient<CatalogContextService>();
+builder.Services.AddScoped<ICustomerContextService, CustomerContextService>().AddHttpClient<CustomerContextService>();
+builder.Services.AddScoped<IDeliveryContextService, DeliveryContextService>().AddHttpClient<DeliveryContextService>();
+builder.Services.AddScoped<IIdentityContextService, IdentityContextService>().AddHttpClient<IdentityContextService>();
+builder.Services.AddScoped<INotificationContextService, NotificationContextService>().AddHttpClient<NotificationContextService>();
+builder.Services.AddScoped<IOrderContextService, OrderContextService>().AddHttpClient<OrderContextService>();
+builder.Services.AddScoped<IPaymentContextService, PaymentContextService>().AddHttpClient<PaymentContextService>();
+builder.Services.AddScoped<IPricingContextService, PricingContextService>().AddHttpClient<PricingContextService>();
+builder.Services.AddScoped<IProductContextService, ProductContextService>().AddHttpClient<ProductContextService>();
 
 #endregion [ Dependency Injection ]
 

@@ -31,9 +31,11 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 
 // Config
 var config = builder.Configuration.Get<Config>()!;
-builder.Services.AddSingleton(config);
 
 #region [ Dependency Injection ]
+
+// Config
+builder.Services.AddSingleton(config);
 
 // Health check
 builder.Services

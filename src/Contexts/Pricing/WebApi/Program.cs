@@ -1,16 +1,25 @@
 using Asp.Versioning;
+using MCIO.Demos.Store.Pricing.WebApi.HealthCheck;
+using MCIO.Demos.Store.Pricing.WebApi.Services;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
 using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
-using MCIO.Demos.Store.Pricing.WebApi.Config;
-using MCIO.Demos.Store.Pricing.WebApi.HealthCheck;
-using MCIO.Demos.Store.Pricing.WebApi.Services;
+using MCIO.Observability.Abstractions;
+using MCIO.Observability.OpenTelemetry;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using OpenTelemetry;
+using System.Diagnostics.Metrics;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using OpenTelemetry.Logs;
+using MCIO.Demos.Store.Pricing.WebApi.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +32,9 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Config
+builder.Services.AddSingleton(config);
 
 // Health check
 builder.Services
@@ -82,6 +94,52 @@ builder.Services.AddSwaggerGen(options =>
 
 // Routing
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+// Observability
+builder.Services.AddSingleton(serviceProvider => new ActivitySource(applicationName));
+builder.Services.AddSingleton<ITraceManager, TraceManager>();
+
+builder.Services.AddSingleton(serviceProvider => new Meter(applicationName, applicationVersion));
+builder.Services.AddSingleton<IMetricsManager>(serviceProvider => new MetricsManager(serviceProvider.GetRequiredService<Meter>()));
+
+// Observability - OpenTelemetry
+var batchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
+{
+    MaxQueueSize = config.OpenTelemetry.MaxQueueSize,
+    ExporterTimeoutMilliseconds = config.OpenTelemetry.ExporterTimeoutMilliseconds,
+    MaxExportBatchSize = config.OpenTelemetry.MaxExportBatchSize,
+    ScheduledDelayMilliseconds = config.OpenTelemetry.ScheduledDelayMilliseconds
+};
+
+builder.Services
+    .AddOpenTelemetry()
+    .ConfigureResource(builder => { })
+    .WithTracing(builder => builder
+        .AddHttpClientInstrumentation(options => { })
+        .AddAspNetCoreInstrumentation(options => { })
+        .AddSource(applicationName)
+        .SetResourceBuilder(
+            ResourceBuilder
+                .CreateDefault()
+                    .AddService(serviceName: applicationName, serviceVersion: applicationVersion)
+        )
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(config.OpenTelemetry.GrpcCollectorReceiverUrl);
+            options.BatchExportProcessorOptions = batchExportProcessorOptions;
+        })
+    )
+    .WithMetrics(builder => builder
+        .AddMeter(applicationName)
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(config.OpenTelemetry.GrpcCollectorReceiverUrl);
+            options.BatchExportProcessorOptions = batchExportProcessorOptions;
+        })
+    );
 
 #endregion [ Dependency Injection ]
 

@@ -623,12 +623,12 @@ services:
     container_name: mcio-demos-store-vault
     restart: unless-stopped
     ports:
-      - "8201:8201"
+      - "8111:8111"
     environment:
-      VAULT_ADDR: 'https://0.0.0.0:8201'
+      VAULT_ADDR: 'https://0.0.0.0:8111'
       VAULT_DEV_ROOT_TOKEN_ID: '123456'
       VAULT_TOKEN: '123456'
-      VAULT_DEV_LISTEN_ADDRESS: '0.0.0.0:8201'
+      VAULT_DEV_LISTEN_ADDRESS: '0.0.0.0:8111'
     cap_add:
       - IPC_LOCK
     volumes:
