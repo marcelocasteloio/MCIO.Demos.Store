@@ -113,7 +113,13 @@ var batchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
 
 builder.Services
     .AddOpenTelemetry()
-    .ConfigureResource(builder => { })
+    .ConfigureResource(builder => {
+        builder.AddService(
+            serviceName: applicationName,
+            serviceNamespace: applicationName,
+            serviceVersion: applicationVersion
+        );
+    })
     .WithTracing(builder => builder
         .AddHttpClientInstrumentation(options => { })
         .AddAspNetCoreInstrumentation(options => { })
