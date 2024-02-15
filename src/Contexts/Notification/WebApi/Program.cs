@@ -25,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var assemblyName = Assembly.GetExecutingAssembly().GetName();
 
+var instanceId = Guid.NewGuid();
 var applicationName = assemblyName.Name!;
 var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 
@@ -117,18 +118,15 @@ builder.Services
         builder.AddService(
             serviceName: applicationName,
             serviceNamespace: applicationName,
-            serviceVersion: applicationVersion
+            serviceVersion: applicationVersion,
+            autoGenerateServiceInstanceId: false,
+            serviceInstanceId: instanceId.ToString()
         );
     })
     .WithTracing(builder => builder
         .AddHttpClientInstrumentation(options => { })
         .AddAspNetCoreInstrumentation(options => { })
         .AddSource(applicationName)
-        .SetResourceBuilder(
-            ResourceBuilder
-                .CreateDefault()
-                    .AddService(serviceName: applicationName, serviceVersion: applicationVersion)
-        )
         .AddOtlpExporter(options =>
         {
             options.Endpoint = new Uri(config.OpenTelemetry.GrpcCollectorReceiverUrl);
