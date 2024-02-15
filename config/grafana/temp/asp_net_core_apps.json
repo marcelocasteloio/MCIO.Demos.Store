@@ -120,8 +120,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "idelta(process_runtime_dotnet_gc_collections_count_total{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[5m])",
+          "editorMode": "code",
+          "expr": "idelta(process_runtime_dotnet_gc_collections_count_total{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[5m])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -233,7 +233,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_committed_memory_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_committed_memory_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -331,7 +331,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_heap_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_heap_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -452,7 +452,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_heap_fragmentation_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[5m])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_heap_fragmentation_size_bytes{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[5m])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -558,7 +558,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "increase(process_runtime_dotnet_exceptions_count_total{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])",
+          "expr": "increase(process_runtime_dotnet_exceptions_count_total{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -628,13 +628,14 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_thread_pool_threads_count{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_thread_pool_threads_count{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
         }
       ],
       "title": "ThreadPool Threads",
+      "transformations": [],
       "type": "stat"
     },
     {
@@ -690,7 +691,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_thread_pool_queue_length{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_thread_pool_queue_length{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -797,7 +798,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, sum by(le) (rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by(le) (rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval])))",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -899,7 +900,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", http_status_code!~\"2..\"}[$__rate_interval]) or vector(0)) / sum(rate(http{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\"}[$__rate_interval]))",
+          "expr": "sum(rate(http{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\", http_status_code!~\"2..\"}[$__rate_interval]) or vector(0)) / sum(rate(http{job=\"$job\", instance=\"$instance\", exported_job=\"$exported_job\", exported_instance=~\"$exported_instance\"}[$__rate_interval]))",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -973,8 +974,8 @@
       {
         "current": {
           "selected": false,
-          "text": "MCIO.Demos.Store.Analytics.WebApi/66779f56-51fc-4c91-8702-62fa585246ca",
-          "value": "MCIO.Demos.Store.Analytics.WebApi/66779f56-51fc-4c91-8702-62fa585246ca"
+          "text": "MCIO.Demos.Store.Gateways.General/MCIO.Demos.Store.Gateways.General",
+          "value": "MCIO.Demos.Store.Gateways.General/MCIO.Demos.Store.Gateways.General"
         },
         "datasource": {
           "type": "prometheus",
@@ -996,17 +997,44 @@
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "label_values(process_runtime_dotnet_gc_collections_count_total{exported_job=~\"$exported_job\"},exported_instance)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "exported_instance",
+        "multi": true,
+        "name": "exported_instance",
+        "options": [],
+        "query": {
+          "query": "label_values(process_runtime_dotnet_gc_collections_count_total{exported_job=~\"$exported_job\"},exported_instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "ASP.NET Core Apps",
   "uid": "a58db7ce-5d2d-4ed5-b0e6-dd8f4c8c23ce",
-  "version": 8,
+  "version": 10,
   "weekStart": ""
 }
