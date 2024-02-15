@@ -31,7 +31,7 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 // Config
 var config = builder.Configuration.Get<Config>()!;
 
-#region [ Dependency Injection 
+#region [ Dependency Injection ]
 
 // Config
 builder.Services.AddSingleton(config);
@@ -47,7 +47,7 @@ builder.Services
 builder.Services
     .AddControllers(options => {
         options.Conventions.Add(
-            new RouteTokenTransformerConvention(new SlugifyParameterTransformer())    
+            new RouteTokenTransformerConvention(new SlugifyParameterTransformer())
         );
     })
     .AddJsonOptions(options =>

@@ -47,7 +47,7 @@ builder.Services
 builder.Services
     .AddControllers(options => {
         options.Conventions.Add(
-            new RouteTokenTransformerConvention(new SlugifyParameterTransformer())    
+            new RouteTokenTransformerConvention(new SlugifyParameterTransformer())
         );
     })
     .AddJsonOptions(options =>
