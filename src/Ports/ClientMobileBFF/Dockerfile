@@ -4,7 +4,8 @@ WORKDIR /App
 
 COPY ./src ./
 RUN dotnet restore Ports/ClientMobileBFF/MCIO.Demos.Store.Ports.ClientMobileBFF.csproj
-RUN dotnet publish Ports/ClientMobileBFF/MCIO.Demos.Store.Ports.ClientMobileBFF.csproj -c Release -o out
+RUN dotnet build Ports/ClientMobileBFF/MCIO.Demos.Store.Ports.ClientMobileBFF.csproj -c Release --no-restore
+RUN dotnet publish Ports/ClientMobileBFF/MCIO.Demos.Store.Ports.ClientMobileBFF.csproj -c Release -o out --no-build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
