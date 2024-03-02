@@ -1,4 +1,4 @@
-﻿namespace MCIO.Demos.Store.Identity.WebApi.Controllers.V1.Auth.Models.Login;
+﻿namespace MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Models;
 
 public readonly record struct LoginPayload
 (

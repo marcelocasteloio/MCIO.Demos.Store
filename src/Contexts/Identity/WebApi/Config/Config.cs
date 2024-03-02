@@ -1,5 +1,6 @@
 ﻿using MCIO.Demos.Store.Identity.WebApi.Config.HealthCheck;
 using MCIO.Demos.Store.Identity.WebApi.Config.OpenTelemetry;
+using MCIO.Demos.Store.Identity.WebApi.Config.Token;
 using System.ComponentModel.DataAnnotations;
 
 namespace MCIO.Demos.Store.Identity.WebApi.Config;
@@ -13,8 +14,5 @@ public class Config
     public OpenTelemetryConfig OpenTelemetry { get; set; } = null!;
 
     [Required]
-    public string PrivateKey { get; set; } = null!;
-
-    [Required]
-    public int ExpiresInSeconds { get; set; }
+    public TokenConfig Token { get; set; } = null!;
 }

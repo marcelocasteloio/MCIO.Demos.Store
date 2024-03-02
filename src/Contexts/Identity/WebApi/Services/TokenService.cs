@@ -21,7 +21,7 @@ public class TokenService
         _config = config;
 
         Initialize(
-            _config.PrivateKey,
+            _config.Token.PrivateKey,
             ref _jwtSecurityTokenHandler!,
             ref _signingCredentials!
         );
@@ -31,7 +31,7 @@ public class TokenService
     public string Generate(User user)
     {
         var securityTokenDescriptor = CreateSecurityTokenDescriptor(
-            ttl: TimeSpan.FromSeconds(_config.ExpiresInSeconds),
+            ttl: TimeSpan.FromSeconds(_config.Token.ExpiresInSeconds),
             claimsIdentity: GenerateClaims(user)
         );
 
@@ -39,13 +39,19 @@ public class TokenService
 
         return _jwtSecurityTokenHandler.WriteToken(token);
     }
-    public static  ClaimsIdentity GenerateClaims(User user)
+    public ClaimsIdentity GenerateClaims(User user)
     {
         var claimsIdentity = new ClaimsIdentity();
+
         claimsIdentity.AddClaim(new Claim(type: ClaimTypes.Name, value: user.Email)); // User.Identity.Name
+        claimsIdentity.AddClaim(new Claim(type: JwtRegisteredClaimNames.Iss, value: _config.Token.Issuer)); // User.Identity.Name
 
         foreach (var role in user.Roles)
             claimsIdentity.AddClaim(new Claim(type: ClaimTypes.Role, value: role)); // User.IsInRole [Authorize]
+
+        if(_config.Token.AudienceCollection is not null)
+            foreach (var audience in _config.Token.AudienceCollection)
+                claimsIdentity.AddClaim(new Claim(type: JwtRegisteredClaimNames.Aud, value: audience));
 
         claimsIdentity.AddClaim(new Claim(type: "sample-key", value: "sample-value"));
 
@@ -62,7 +68,7 @@ public class TokenService
         jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 
         signingCredentials = new SigningCredentials(
-            key: new SymmetricSecurityKey(Encoding.ASCII.GetBytes(privateKey)),
+            key: new SymmetricSecurityKey(Encoding.UTF8.GetBytes(privateKey)),
             algorithm: SecurityAlgorithms.HmacSha256Signature
         );
     }
@@ -71,11 +77,13 @@ public class TokenService
         ClaimsIdentity claimsIdentity
     )
     {
+        var expires = DateTime.UtcNow.Add(ttl);
+
         return new SecurityTokenDescriptor
         {
             Subject = claimsIdentity,
             SigningCredentials = _signingCredentials,
-            Expires = DateTime.UtcNow.Add(ttl),
+            Expires = expires
         };
     }
 }

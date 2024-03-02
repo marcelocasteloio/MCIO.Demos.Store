@@ -21,6 +21,10 @@ using System.Text.Json.Serialization;
 using OpenTelemetry.Logs;
 using MCIO.Demos.Store.Identity.WebApi.Config;
 using MCIO.Demos.Store.Identity.WebApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,6 +96,34 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.linkedin.com/company/marcelocasteloio")
         }
     });
+    options.AddSecurityDefinition(
+        name: "Bearer",
+        securityScheme: new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        }
+    );
+    options.AddSecurityRequirement(
+        securityRequirement: new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        }
+    );
 });
 
 // Routing
@@ -146,6 +178,31 @@ builder.Services
         })
     );
 
+// Authorization
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuers = [config.Token.Issuer],
+
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Token.PrivateKey)),
+            ValidateIssuerSigningKey = true,
+
+            RequireAudience = true,
+            ValidateAudience = true,
+            ValidAudiences = config.Token.AudienceCollection ?? [],
+
+            ValidateLifetime = true,
+            RequireExpirationTime = true,
+
+            RequireSignedTokens = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 #endregion [ Dependency Injection ]
@@ -192,6 +249,9 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 #endregion [ Pipeline ]
 
