@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using OpenTelemetry.Logs;
 using MCIO.Demos.Store.Identity.WebApi.Config;
+using MCIO.Demos.Store.Identity.WebApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -144,6 +145,8 @@ builder.Services
             options.BatchExportProcessorOptions = batchExportProcessorOptions;
         })
     );
+
+builder.Services.AddSingleton<ITokenService, TokenService>();
 
 #endregion [ Dependency Injection ]
 

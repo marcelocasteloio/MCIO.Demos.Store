@@ -11,4 +11,10 @@ public class Config
 
     [Required]
     public OpenTelemetryConfig OpenTelemetry { get; set; } = null!;
+
+    [Required]
+    public string PrivateKey { get; set; } = null!;
+
+    [Required]
+    public int ExpiresInSeconds { get; set; }
 }
