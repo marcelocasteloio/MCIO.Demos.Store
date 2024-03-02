@@ -4,7 +4,8 @@ WORKDIR /App
 
 COPY ./src ./
 RUN dotnet restore Contexts/Calendar/WebApi/MCIO.Demos.Store.Calendar.WebApi.csproj
-RUN dotnet publish Contexts/Calendar/WebApi/MCIO.Demos.Store.Calendar.WebApi.csproj -c Release -o out
+RUN dotnet build Contexts/Calendar/WebApi/MCIO.Demos.Store.Calendar.WebApi.csproj -c Release --no-restore
+RUN dotnet publish Contexts/Calendar/WebApi/MCIO.Demos.Store.Calendar.WebApi.csproj -c Release -o out --no-build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App

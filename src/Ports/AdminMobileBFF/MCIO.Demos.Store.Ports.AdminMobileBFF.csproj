@@ -5,18 +5,41 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<UserSecretsId>MCIO.Demos.Store.Ports.AdminMobileBFF</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Http" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+		<PackageReference Include="MarceloCastelo.IO.Observability.OpenTelemetry" Version="1.0.0" />
+		<PackageReference Include="OpenTelemetry" Version="1.7.0" />
+		<PackageReference Include="OpenTelemetry.Api.ProviderBuilderExtensions" Version="1.7.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.1" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.7.1" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.7.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="appsettings.Development.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>
