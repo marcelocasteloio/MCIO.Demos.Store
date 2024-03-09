@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MCIO.Demos.Store.Identity.WebApi.HealthCheck;
 using MCIO.Demos.Store.Identity.WebApi.Services;
+using MCIO.Demos.Store.Identity.WebApi.GrpcServices;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
@@ -26,7 +27,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
 using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
-using MCIO.Demos.Store.Identity.WebApi.GrpcServices;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 

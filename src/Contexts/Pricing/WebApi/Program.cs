@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MCIO.Demos.Store.Pricing.WebApi.HealthCheck;
 using MCIO.Demos.Store.Pricing.WebApi.Services;
+using MCIO.Demos.Store.Pricing.WebApi.GrpcServices;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
@@ -170,6 +171,14 @@ builder.Services
         })
     );
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -207,6 +216,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();

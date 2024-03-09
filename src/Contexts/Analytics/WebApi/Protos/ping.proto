@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "MCIO.Demos.Store.Analytics.WebApi";
+
+package MCIO.Demos.Store.Analytics.WebApi;
+
+service PingService {
+  rpc Ping(PingRequest) returns (PingReply);
+}
+
+message PingRequest {
+
+}
+
+message PingReply {
+
+}

@@ -6,6 +6,7 @@ using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.HealthCheck;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.Config;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.Services;
+using MCIO.Demos.Store.Ports.ClientMobileBFF.GrpcServices;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -175,6 +176,14 @@ builder.Services
 builder.Services
     .AddScoped<IGeneralGatewayService, GeneralGatewayService>().AddHttpClient<GeneralGatewayService>();
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -212,6 +221,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();
