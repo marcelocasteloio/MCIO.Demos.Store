@@ -26,6 +26,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
 using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
+using MCIO.Demos.Store.Identity.WebApi.GrpcServices;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,29 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Configure Kestrel
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    // Http
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.HttpPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http1;
+        }
+    );
+    // Grpc
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.GrpcPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http2;
+        }
+    );
+});
 
 // Config
 builder.Services.AddSingleton(config);
@@ -215,6 +241,14 @@ builder.Services.AddHttpContextAccessor();
 // Execution Info Accessor
 builder.Services.AddExecutionInfoAccessor();
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -252,6 +286,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();

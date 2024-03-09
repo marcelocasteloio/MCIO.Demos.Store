@@ -1,4 +1,5 @@
 ﻿using MCIO.Demos.Store.Gateways.General.Config.HealthCheck;
+using MCIO.Demos.Store.Gateways.General.Config.Kestrel;
 using MCIO.Demos.Store.Gateways.General.Config.OpenTelemetry;
 using MCIO.Demos.Store.Gateways.General.Config.Services;
 using MCIO.Demos.Store.Gateways.General.Config.Token;
@@ -8,6 +9,9 @@ namespace MCIO.Demos.Store.Gateways.General.Config;
 
 public class Config
 {
+    [Required]
+    public KestrelConfig Kestrel { get; set; } = null!;
+
     [Required]
     public HealthCheckConfig HealthCheck { get; set; } = null!;
 
