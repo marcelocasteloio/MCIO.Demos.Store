@@ -2,7 +2,6 @@
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCIO.Demos.Store.Gateways.General.Controllers.V1.Auth;

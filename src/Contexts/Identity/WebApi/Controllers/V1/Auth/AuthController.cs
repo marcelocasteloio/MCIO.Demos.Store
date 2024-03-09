@@ -1,4 +1,6 @@
 ﻿using Asp.Versioning;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor.Interfaces;
+using MCIO.Demos.Store.BuildingBlock.WebApi.Responses;
 using MCIO.Demos.Store.Identity.WebApi.Controllers.V1.Auth.Models.Login;
 using MCIO.Demos.Store.Identity.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -13,18 +15,22 @@ public class AuthController
     : ControllerBase
 {
     // Fields
-    private ITokenService _tokenService;
+    private readonly ITokenService _tokenService;
+    private readonly IExecutionInfoAccessor _executionInfoAccessor;
 
     // Constructors
     public AuthController(
-        ITokenService tokenService
+        ITokenService tokenService,
+        IExecutionInfoAccessor executionInfoAccessor
     )
     {
         _tokenService = tokenService;
+        _executionInfoAccessor = executionInfoAccessor;
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(type: typeof(LoginResponse), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(type: typeof(ResponseBase<LoginResponse>), statusCode: StatusCodes.Status200OK, contentType: "application/json")]
+    [ProducesResponseType(type: typeof(ResponseBase), statusCode: StatusCodes.Status401Unauthorized, contentType: "application/json")]
     public async Task<IActionResult> LoginAsync(
         [FromBody] LoginPayload payload,
         CancellationToken cancellationToken
@@ -44,7 +50,8 @@ public class AuthController
                             "can-remove-customer"
                         ]
                     )
-                )
+                ),
+                Username: payload.Username
             )
         );
     }

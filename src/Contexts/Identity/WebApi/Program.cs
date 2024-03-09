@@ -24,7 +24,8 @@ using MCIO.Demos.Store.Identity.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json;
+using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +97,9 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.linkedin.com/company/marcelocasteloio")
         }
     });
+
+    options.OperationFilter<AddRequiredHeaderParameterOperationFilter>();
+
     options.AddSecurityDefinition(
         name: "Bearer",
         securityScheme: new OpenApiSecurityScheme
@@ -204,6 +208,12 @@ builder.Services
     });
 
 builder.Services.AddSingleton<ITokenService, TokenService>();
+
+// HttpContext Accessor
+builder.Services.AddHttpContextAccessor();
+
+// Execution Info Accessor
+builder.Services.AddExecutionInfoAccessor();
 
 #endregion [ Dependency Injection ]
 

@@ -2,9 +2,6 @@
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Models;
 using MCIO.OutputEnvelop;
 using MCIO.OutputEnvelop.Enums;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 
 namespace MCIO.Demos.Store.Gateways.General.Services.Identity.V1;
 

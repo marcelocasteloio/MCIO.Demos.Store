@@ -43,4 +43,8 @@
 	  </Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Controllers\V1\Users\Models\" />
+	</ItemGroup>
+
 </Project>

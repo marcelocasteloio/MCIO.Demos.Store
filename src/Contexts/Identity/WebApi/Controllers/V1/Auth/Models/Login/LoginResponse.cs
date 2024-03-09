@@ -2,5 +2,6 @@
 
 public readonly record struct LoginResponse
 (
-    string Token
+    string Token,
+    string Username
 );
