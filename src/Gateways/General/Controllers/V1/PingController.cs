@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

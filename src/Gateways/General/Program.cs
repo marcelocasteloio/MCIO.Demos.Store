@@ -6,11 +6,15 @@ using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
 using MCIO.Demos.Store.Gateways.General.Config;
 using MCIO.Demos.Store.Gateways.General.HealthCheck;
 using MCIO.Demos.Store.Gateways.General.Services;
+using MCIO.Demos.Store.Gateways.General.Services.Identity.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Interfaces;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
@@ -20,6 +24,7 @@ using OpenTelemetry.Trace;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -93,6 +98,34 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.linkedin.com/company/marcelocasteloio")
         }
     });
+    options.AddSecurityDefinition(
+        name: "Bearer",
+        securityScheme: new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        }
+    );
+    options.AddSecurityRequirement(
+        securityRequirement: new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        }
+    );
 });
 
 // Routing
@@ -161,6 +194,31 @@ builder.Services.AddScoped<IPaymentContextService, PaymentContextService>().AddH
 builder.Services.AddScoped<IPricingContextService, PricingContextService>().AddHttpClient<PricingContextService>();
 builder.Services.AddScoped<IProductContextService, ProductContextService>().AddHttpClient<ProductContextService>();
 
+// Authorization
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuers = [config.Token.Issuer],
+
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Token.PrivateKey)),
+            ValidateIssuerSigningKey = true,
+
+            RequireAudience = true,
+            ValidateAudience = true,
+            ValidAudiences = config.Token.AudienceCollection ?? [],
+
+            ValidateLifetime = true,
+            RequireExpirationTime = true,
+
+            RequireSignedTokens = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -205,6 +263,9 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 #endregion [ Pipeline ]
 
