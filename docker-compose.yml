@@ -70,9 +70,10 @@ services:
     container_name: "mcio-demos-store-ports-client-web-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:6001;http://+:6002"
     ports:
-      - 6002:80
+      - 6001:6001
+      - 6002:6002
     networks:
       - mcio-demos-store
 
@@ -80,7 +81,8 @@ services:
     <<: *mcio-demos-store-ports-client-web-bff
     container_name: "mcio-demos-store-ports-client-web-bff-2"
     ports:
-      - 6003:80
+      - 6003:6001
+      - 6004:6002
 
   mcio-demos-store-ports-client-mobile-bff-1: &mcio-demos-store-ports-client-mobile-bff
     build:
@@ -88,9 +90,10 @@ services:
     container_name: "mcio-demos-store-ports-client-mobile-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:6011;http://+:6012"
     ports:
-      - 6012:80
+      - 6011:6011
+      - 6012:6012
     networks:
       - mcio-demos-store
 
@@ -98,7 +101,8 @@ services:
     <<: *mcio-demos-store-ports-client-mobile-bff
     container_name: "mcio-demos-store-ports-client-mobile-bff-2"
     ports:
-      - 6013:80
+      - 6013:6011
+      - 6014:6012
 
   mcio-demos-store-ports-admin-web-bff-1: &mcio-demos-store-ports-admin-web-bff
     build:
@@ -106,9 +110,10 @@ services:
     container_name: "mcio-demos-store-ports-admin-web-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:6021;http://+:6022"
     ports:
-      - 6022:80
+      - 6021:6021
+      - 6022:6022
     networks:
       - mcio-demos-store
 
@@ -116,7 +121,8 @@ services:
     <<: *mcio-demos-store-ports-admin-web-bff
     container_name: "mcio-demos-store-ports-admin-web-bff-2"
     ports:
-      - 6023:80
+      - 6023:6021
+      - 6024:6022
 
   mcio-demos-store-ports-admin-mobile-bff-1: &mcio-demos-store-ports-admin-mobile-bff
     build:
@@ -124,9 +130,10 @@ services:
     container_name: "mcio-demos-store-ports-admin-mobile-bff-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:6031;http://+:6032"
     ports:
-      - 6032:80
+      - 6031:6031
+      - 6032:6032
     networks:
       - mcio-demos-store
 
@@ -134,7 +141,8 @@ services:
     <<: *mcio-demos-store-ports-admin-mobile-bff
     container_name: "mcio-demos-store-ports-admin-mobile-bff-2"
     ports:
-      - 6033:80
+      - 6033:6031
+      - 6034:6032
 
   mcio-demos-store-gateways-general-1: &mcio-demos-store-gateways-general
     build:
@@ -142,9 +150,10 @@ services:
     container_name: "mcio-demos-store-gateways-general-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:7001;http://+:7002"
     ports:
-      - 7002:80
+      - 7001:7001
+      - 7002:7002
     networks:
       - mcio-demos-store
 
@@ -152,7 +161,8 @@ services:
     <<: *mcio-demos-store-gateways-general
     container_name: "mcio-demos-store-gateways-general-2"
     ports:
-      - 7003:80
+      - 7003:7001
+      - 7004:7002
 
   mcio-demos-store-contexts-identity-1: &mcio-demos-store-contexts-identity
     build:
@@ -160,9 +170,10 @@ services:
     container_name: "mcio-demos-store-contexts-identity-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8001;http://+:8002"
     ports:
-      - 8002:80
+      - 8001:8001
+      - 8002:8002
     networks:
       - mcio-demos-store
 
@@ -170,7 +181,8 @@ services:
     <<: *mcio-demos-store-contexts-identity
     container_name: "mcio-demos-store-contexts-identity-2"
     ports:
-      - 8003:80
+      - 8003:8001
+      - 8004:8002
 
   mcio-demos-store-contexts-customer-1: &mcio-demos-store-contexts-customer
     build:
@@ -178,9 +190,10 @@ services:
     container_name: "mcio-demos-store-contexts-customer-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8011;http://+:8012"
     ports:
-      - 8012:80
+      - 8011:8011
+      - 8012:8012
     networks:
       - mcio-demos-store
 
@@ -188,7 +201,8 @@ services:
     <<: *mcio-demos-store-contexts-customer
     container_name: "mcio-demos-store-contexts-customer-2"
     ports:
-      - 8013:80
+      - 8013:8011
+      - 8014:8012
 
   mcio-demos-store-contexts-product-1: &mcio-demos-store-contexts-product
     build:
@@ -196,9 +210,10 @@ services:
     container_name: "mcio-demos-store-contexts-product-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8021;http://+:8022"
     ports:
-      - 8022:80
+      - 8021:8021
+      - 8022:8022
     networks:
       - mcio-demos-store
 
@@ -206,7 +221,8 @@ services:
     <<: *mcio-demos-store-contexts-product
     container_name: "mcio-demos-store-contexts-product-2"
     ports:
-      - 8023:80
+      - 8023:8021
+      - 8024:8022
 
   mcio-demos-store-contexts-catalog-1: &mcio-demos-store-contexts-catalog
     build:
@@ -214,9 +230,10 @@ services:
     container_name: "mcio-demos-store-contexts-catalog-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8031;http://+:8032"
     ports:
-      - 8032:80
+      - 8031:8031
+      - 8032:8032
     networks:
       - mcio-demos-store
 
@@ -224,7 +241,8 @@ services:
     <<: *mcio-demos-store-contexts-catalog
     container_name: "mcio-demos-store-contexts-catalog-2"
     ports:
-      - 8033:80
+      - 8033:8031
+      - 8034:8032
 
   mcio-demos-store-contexts-order-1: &mcio-demos-store-contexts-order
     build:
@@ -232,9 +250,10 @@ services:
     container_name: "mcio-demos-store-contexts-order-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8041;http://+:8042"
     ports:
-      - 8042:80
+      - 8041:8041
+      - 8042:8042
     networks:
       - mcio-demos-store
 
@@ -242,7 +261,8 @@ services:
     <<: *mcio-demos-store-contexts-order
     container_name: "mcio-demos-store-contexts-order-2"
     ports:
-      - 8043:80
+      - 8043:8041
+      - 8044:8042
 
   mcio-demos-store-contexts-basket-1: &mcio-demos-store-contexts-basket
     build:
@@ -250,9 +270,10 @@ services:
     container_name: "mcio-demos-store-contexts-basket-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8051;http://+:8052"
     ports:
-      - 8052:80
+      - 8051:8051
+      - 8052:8052
     networks:
       - mcio-demos-store
 
@@ -260,7 +281,8 @@ services:
     <<: *mcio-demos-store-contexts-basket
     container_name: "mcio-demos-store-contexts-basket-2"
     ports:
-      - 8053:80
+      - 8053:8051
+      - 8054:8052
 
   mcio-demos-store-contexts-delivery-1: &mcio-demos-store-contexts-delivery
     build:
@@ -268,9 +290,10 @@ services:
     container_name: "mcio-demos-store-contexts-delivery-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8061;http://+:8062"
     ports:
-      - 8062:80
+      - 8061:8061
+      - 8062:8062
     networks:
       - mcio-demos-store
 
@@ -278,7 +301,8 @@ services:
     <<: *mcio-demos-store-contexts-delivery
     container_name: "mcio-demos-store-contexts-delivery-2"
     ports:
-      - 8063:80
+      - 8063:8061
+      - 8064:8062
 
   mcio-demos-store-contexts-pricing-1: &mcio-demos-store-contexts-pricing
     build:
@@ -286,9 +310,10 @@ services:
     container_name: "mcio-demos-store-contexts-pricing-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8071;http://+:8072"
     ports:
-      - 8072:80
+      - 8071:8071
+      - 8072:8072
     networks:
       - mcio-demos-store
 
@@ -296,7 +321,8 @@ services:
     <<: *mcio-demos-store-contexts-pricing
     container_name: "mcio-demos-store-contexts-pricing-2"
     ports:
-      - 8073:80
+      - 8073:8071
+      - 8074:8072
 
   mcio-demos-store-contexts-payment-1: &mcio-demos-store-contexts-payment
     build:
@@ -304,9 +330,10 @@ services:
     container_name: "mcio-demos-store-contexts-payment-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8081;http://+:8082"
     ports:
-      - 8082:80
+      - 8081:8081
+      - 8082:8082
     networks:
       - mcio-demos-store
 
@@ -314,7 +341,8 @@ services:
     <<: *mcio-demos-store-contexts-payment
     container_name: "mcio-demos-store-contexts-payment-2"
     ports:
-      - 8083:80
+      - 8083:8081
+      - 8084:8082
 
   mcio-demos-store-contexts-notification-1: &mcio-demos-store-contexts-notification
     build:
@@ -322,9 +350,10 @@ services:
     container_name: "mcio-demos-store-contexts-notification-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8091;http://+:8092"
     ports:
-      - 8092:80
+      - 8091:8091
+      - 8092:8092
     networks:
       - mcio-demos-store
 
@@ -332,7 +361,8 @@ services:
     <<: *mcio-demos-store-contexts-notification
     container_name: "mcio-demos-store-contexts-notification-2"
     ports:
-      - 8093:80
+      - 8093:8091
+      - 8094:8092
 
   mcio-demos-store-contexts-analytics-1: &mcio-demos-store-contexts-analytics
     build:
@@ -340,9 +370,10 @@ services:
     container_name: "mcio-demos-store-contexts-analytics-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8101;http://+:8112"
     ports:
-      - 8102:80
+      - 8101:8101
+      - 8102:8102
     networks:
       - mcio-demos-store
 
@@ -350,7 +381,8 @@ services:
     <<: *mcio-demos-store-contexts-analytics
     container_name: "mcio-demos-store-contexts-analytics-2"
     ports:
-      - 8103:80
+      - 8103:8101
+      - 8104:8102
 
   mcio-demos-store-contexts-calendar-1: &mcio-demos-store-contexts-calendar
     build:
@@ -358,9 +390,10 @@ services:
     container_name: "mcio-demos-store-contexts-calendar-1"
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_URLS: "http://+:8111;http://+:8112"
     ports:
-      - 8202:80
+      - 8111:8111
+      - 8112:8112
     networks:
       - mcio-demos-store
 
@@ -368,7 +401,8 @@ services:
     <<: *mcio-demos-store-contexts-calendar
     container_name: "mcio-demos-store-contexts-calendar-2"
     ports:
-      - 8203:80
+      - 8113:8111
+      - 8114:8112
 
   mcio-demos-store-postgres:
     image: postgres:16.1
@@ -451,7 +485,7 @@ services:
     container_name: mcio-demos-store-mongo-express
     restart: unless-stopped
     ports:
-      - 8081:8081
+      - 9081:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mcio-demos-store-mongo
       ME_CONFIG_MONGODB_PORT: 27017
@@ -497,7 +531,7 @@ services:
     container_name: mcio-demos-store-redis-insight
     restart: unless-stopped
     ports:
-      - 8001:8001
+      - 9002:8001
     depends_on:
       - mcio-demos-store-redis
     networks:
@@ -623,7 +657,7 @@ services:
     container_name: mcio-demos-store-vault
     restart: unless-stopped
     ports:
-      - "8111:8111"
+      - "9111:8111"
     environment:
       VAULT_ADDR: 'https://0.0.0.0:8111'
       VAULT_DEV_ROOT_TOKEN_ID: '123456'
