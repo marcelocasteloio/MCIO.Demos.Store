@@ -43,6 +43,7 @@ services:
       - mcio-demos-store-contexts-calendar-2
     ports:
       - 5000:5000
+      - 5001:5001
     networks:
       mcio-demos-store:
         aliases:
