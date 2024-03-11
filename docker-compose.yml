@@ -47,23 +47,40 @@ services:
     networks:
       mcio-demos-store:
         aliases:
-          - ports-client-web-bff.mcio-demos-store-nginx
-          - ports-client-mobile-bff.mcio-demos-store-nginx
-          - ports-admin-web-bff.mcio-demos-store-nginx
-          - ports-admin-mobile-bff.mcio-demos-store-nginx
-          - gateways-general.mcio-demos-store-nginx
-          - contexts-identity.mcio-demos-store-nginx
-          - contexts-customer.mcio-demos-store-nginx
-          - contexts-product.mcio-demos-store-nginx
-          - contexts-catalog.mcio-demos-store-nginx
-          - contexts-order.mcio-demos-store-nginx
-          - contexts-basket.mcio-demos-store-nginx
-          - contexts-delivery.mcio-demos-store-nginx
-          - contexts-pricing.mcio-demos-store-nginx
-          - contexts-payment.mcio-demos-store-nginx
-          - contexts-notification.mcio-demos-store-nginx
-          - contexts-analytics.mcio-demos-store-nginx
-          - contexts-calendar.mcio-demos-store-nginx
+          - ports-client-web-bff-http.mcio-demos-store-nginx
+          - ports-client-web-bff-grpc.mcio-demos-store-nginx
+          - ports-client-mobile-bff-http.mcio-demos-store-nginx
+          - ports-client-mobile-bff-grpc.mcio-demos-store-nginx
+          - ports-admin-web-bff-http.mcio-demos-store-nginx
+          - ports-admin-web-bff-grpc.mcio-demos-store-nginx
+          - ports-admin-mobile-bff-http.mcio-demos-store-nginx
+          - ports-admin-mobile-grpc-http.mcio-demos-store-nginx
+          - gateways-general-http.mcio-demos-store-nginx
+          - gateways-general-grpc.mcio-demos-store-nginx
+          - contexts-identity-http.mcio-demos-store-nginx
+          - contexts-identity-grpc.mcio-demos-store-nginx
+          - contexts-customer-http.mcio-demos-store-nginx
+          - contexts-customer-grpc.mcio-demos-store-nginx
+          - contexts-product-http.mcio-demos-store-nginx
+          - contexts-product-grpc.mcio-demos-store-nginx
+          - contexts-catalog-http.mcio-demos-store-nginx
+          - contexts-catalog-grpc.mcio-demos-store-nginx
+          - contexts-order-http.mcio-demos-store-nginx
+          - contexts-order-grpc.mcio-demos-store-nginx
+          - contexts-basket-http.mcio-demos-store-nginx
+          - contexts-basket-grpc.mcio-demos-store-nginx
+          - contexts-delivery-http.mcio-demos-store-nginx
+          - contexts-delivery-grpc.mcio-demos-store-nginx
+          - contexts-pricing-http.mcio-demos-store-nginx
+          - contexts-pricing-grpc.mcio-demos-store-nginx
+          - contexts-payment-http.mcio-demos-store-nginx
+          - contexts-payment-grpc.mcio-demos-store-nginx
+          - contexts-notification-http.mcio-demos-store-nginx
+          - contexts-notification-grpc.mcio-demos-store-nginx
+          - contexts-analytics-http.mcio-demos-store-nginx
+          - contexts-analytics-grpc.mcio-demos-store-nginx
+          - contexts-calendar-http.mcio-demos-store-nginx
+          - contexts-calendar-grpc.mcio-demos-store-nginx
 
   mcio-demos-store-ports-client-web-bff-1: &mcio-demos-store-ports-client-web-bff
     build:
