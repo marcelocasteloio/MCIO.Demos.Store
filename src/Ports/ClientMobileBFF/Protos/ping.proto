@@ -9,9 +9,10 @@ service PingService {
 }
 
 message PingRequest {
-
+	string origin = 1;
 }
 
 message PingReply {
-
+	string origin = 1;
+	string server = 2;
 }

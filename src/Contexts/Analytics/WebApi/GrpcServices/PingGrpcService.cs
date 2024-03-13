@@ -1,5 +1,5 @@
 ﻿using Grpc.Core;
-using MCIO.Demos.Store.Analytics.WebApi;
+using System.Reflection;
 
 namespace MCIO.Demos.Store.Analytics.WebApi.GrpcServices;
 
@@ -10,6 +10,10 @@ public class PingGrpcService
     {
         await Task.Yield();
 
-        return new PingReply();
+        return new PingReply
+        {
+            Origin = request.Origin,
+            Server = Assembly.GetExecutingAssembly().GetName().Name
+        };
     }
 }
