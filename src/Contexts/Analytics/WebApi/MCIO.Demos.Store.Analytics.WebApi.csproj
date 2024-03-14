@@ -9,6 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Protos\MCIO.Demos.Store.Analytics.WebApi.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.61.0" />
 		<PackageReference Include="Asp.Versioning.Http" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
@@ -27,6 +32,10 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
 	  <ProjectReference Include="..\..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Analytics.WebApi.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 </Project>

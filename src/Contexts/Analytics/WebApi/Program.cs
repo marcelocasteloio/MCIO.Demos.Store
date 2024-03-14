@@ -2,6 +2,7 @@ using Asp.Versioning;
 using MCIO.Demos.Store.Analytics.WebApi.Config;
 using MCIO.Demos.Store.Analytics.WebApi.HealthCheck;
 using MCIO.Demos.Store.Analytics.WebApi.Services;
+using MCIO.Demos.Store.Analytics.WebApi.GrpcServices;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
@@ -10,6 +11,7 @@ using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
@@ -18,6 +20,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Net;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -33,6 +36,29 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Configure Kestrel
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    // Http
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.HttpPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http1;
+        }
+    );
+    // Grpc
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.GrpcPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http2;
+        }
+    );
+});
 
 // Config
 builder.Services.AddSingleton(config);
@@ -145,6 +171,14 @@ builder.Services
         })
     );
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -182,6 +216,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();

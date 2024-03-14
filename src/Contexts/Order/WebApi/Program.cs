@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MCIO.Demos.Store.Order.WebApi.HealthCheck;
 using MCIO.Demos.Store.Order.WebApi.Services;
+using MCIO.Demos.Store.Order.WebApi.GrpcServices;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck;
 using MCIO.Demos.Store.BuildingBlock.WebApi.HealthCheck.Models;
 using MCIO.Demos.Store.BuildingBlock.WebApi.PropertyNamingPolicies;
@@ -20,6 +21,8 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using OpenTelemetry.Logs;
 using MCIO.Demos.Store.Order.WebApi.Config;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,29 @@ var applicationVersion = assemblyName.Version?.ToString() ?? "no version";
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Configure Kestrel
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    // Http
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.HttpPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http1;
+        }
+    );
+    // Grpc
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.GrpcPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http2;
+        }
+    );
+});
 
 // Config
 builder.Services.AddSingleton(config);
@@ -145,6 +171,14 @@ builder.Services
         })
     );
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -182,6 +216,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();

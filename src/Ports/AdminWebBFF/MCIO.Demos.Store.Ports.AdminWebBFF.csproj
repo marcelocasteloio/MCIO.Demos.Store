@@ -9,6 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Protos\MCIO.Demos.Store.Ports.AdminWebBFF.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.61.0" />
 		<PackageReference Include="Asp.Versioning.Http" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
@@ -26,20 +31,26 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
+		<ProjectReference Include="..\..\BuildingBlock\Grpc.DependencyInjection\MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="appsettings.Development.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <Content Update="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
+		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminWebBFF.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

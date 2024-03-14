@@ -9,11 +9,13 @@ using MCIO.Demos.Store.Gateways.General.Services;
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1;
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Interfaces;
+using MCIO.Demos.Store.Gateways.General.GrpcServices;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
@@ -23,9 +25,11 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +44,29 @@ var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") 
 var config = builder.Configuration.Get<Config>()!;
 
 #region [ Dependency Injection ]
+
+// Configure Kestrel
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    // Http
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.HttpPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http1;
+        }
+    );
+    // Grpc
+    options.Listen(
+        address: IPAddress.Any,
+        port: config.Kestrel.GrpcPort,
+        options =>
+        {
+            options.Protocols = HttpProtocols.Http2;
+        }
+    );
+});
 
 // Config
 builder.Services.AddSingleton(config);
@@ -219,6 +246,51 @@ builder.Services
         };
     });
 
+// GrpcServices
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaxReceiveMessageSize = null;
+    options.MaxSendMessageSize = null;
+});
+
+// GrpcServices Client
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Analytics.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.AnalyticsContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Basket.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.BasketContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Calendar.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CalendarContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Catalog.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CatalogContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Customer.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CustomerContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Delivery.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.DeliveryContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Identity.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.IdentityContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Notification.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.NotificationContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Order.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.OrderContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Payment.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.PaymentContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Pricing.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.PricingContext
+);
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Product.WebApi.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.ProductContext
+);
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
@@ -256,6 +328,9 @@ app.MapHealthChecks(
 
 // Controllers
 app.MapControllers();
+
+// GrpcServices
+app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();
