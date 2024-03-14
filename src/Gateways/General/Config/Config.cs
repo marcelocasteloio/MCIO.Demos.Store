@@ -1,7 +1,7 @@
-﻿using MCIO.Demos.Store.Gateways.General.Config.HealthCheck;
+﻿using MCIO.Demos.Store.Gateways.General.Config.ExternalServices;
+using MCIO.Demos.Store.Gateways.General.Config.HealthCheck;
 using MCIO.Demos.Store.Gateways.General.Config.Kestrel;
 using MCIO.Demos.Store.Gateways.General.Config.OpenTelemetry;
-using MCIO.Demos.Store.Gateways.General.Config.Services;
 using MCIO.Demos.Store.Gateways.General.Config.Token;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,7 +19,7 @@ public class Config
     public OpenTelemetryConfig OpenTelemetry { get; set; } = null!;
 
     [Required]
-    public ServicesConfig Services { get; set; } = null!;
+    public ExternalServicesConfig ExternalServices { get; set; } = null!;
 
     [Required]
     public TokenConfig Token { get; set; } = null!;

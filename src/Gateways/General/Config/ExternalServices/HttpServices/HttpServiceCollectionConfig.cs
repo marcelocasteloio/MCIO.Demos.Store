@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MCIO.Demos.Store.Gateways.General.Config.Services.HttpServices;
+namespace MCIO.Demos.Store.Gateways.General.Config.ExternalServices.HttpServices;
 
 public class HttpServiceCollectionConfig
 {

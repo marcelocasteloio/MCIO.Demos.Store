@@ -23,7 +23,7 @@ public class ProductContextService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.ProductContext.BaseUrl}/api/v1/ping",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.ProductContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }

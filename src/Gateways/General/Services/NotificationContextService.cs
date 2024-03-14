@@ -23,7 +23,7 @@ public class NotificationContextService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.NotificationContext.BaseUrl}/api/v1/ping",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.NotificationContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }

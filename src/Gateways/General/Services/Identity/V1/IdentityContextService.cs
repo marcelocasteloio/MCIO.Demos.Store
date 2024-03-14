@@ -29,7 +29,7 @@ public class IdentityContextService
     )
     {
         var response = await _httpClient.PostAsJsonAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/auth/login",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/auth/login",
             value: payload,
             cancellationToken
         );
@@ -48,7 +48,7 @@ public class IdentityContextService
         _httpClient.DefaultRequestHeaders.Add("Authorization", authorizationHeaderValue);
 
         var response = await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/auth/validate-token",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/auth/validate-token",
             cancellationToken
         );
 
@@ -60,7 +60,7 @@ public class IdentityContextService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/ping",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }

@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\ping.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Basket.WebApi.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Protos\ping.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Basket.WebApi.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

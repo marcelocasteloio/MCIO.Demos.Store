@@ -23,7 +23,7 @@ public class CatalogContextService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.CatalogContext.BaseUrl}/api/v1/ping",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.CatalogContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }

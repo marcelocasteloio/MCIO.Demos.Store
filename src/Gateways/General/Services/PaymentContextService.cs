@@ -23,7 +23,7 @@ public class PaymentContextService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: $"{_config.Services.HttpServiceCollection.PaymentContext.BaseUrl}/api/v1/ping",
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.PaymentContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }
