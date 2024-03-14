@@ -8,6 +8,8 @@ public class PingGrpcService
     : PingService.PingServiceBase
 {
     // Fields
+    private static readonly string _origin = Assembly.GetExecutingAssembly().GetName().Name!;
+
     private readonly Analytics.WebApi.PingService.PingServiceClient _analyticsPingServiceClient;
     private readonly Basket.WebApi.PingService.PingServiceClient _basketPingServiceClient;
     private readonly Calendar.WebApi.PingService.PingServiceClient _calendarPingServiceClient;
@@ -42,22 +44,20 @@ public class PingGrpcService
 
     public override async Task<PingReply> Ping(PingRequest request, ServerCallContext context)
     {
-        var origin = Assembly.GetExecutingAssembly().GetName().Name;
-
         var taskCollection = new Task[]
         {
-            Task.Run(async () => await _analyticsPingServiceClient.PingAsync(new Analytics.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _basketPingServiceClient.PingAsync(new Basket.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _calendarPingServiceClient.PingAsync(new Calendar.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _catalogPingServiceClient.PingAsync(new Catalog.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _customerPingServiceClient.PingAsync(new Customer.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _deliveryPingServiceClient.PingAsync(new Delivery.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _identityPingServiceClient.PingAsync(new Identity.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _notificationPingServiceClient.PingAsync(new Notification.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _orderPingServiceClient.PingAsync(new Order.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _paymentPingServiceClient.PingAsync(new Payment.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _pricingPingServiceClient.PingAsync(new Pricing.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken)),
-            Task.Run(async () => await _productPingServiceClient.PingAsync(new Product.WebApi.PingRequest { Origin = origin }, cancellationToken: context.CancellationToken))
+            _analyticsPingServiceClient.PingAsync(new Analytics.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _basketPingServiceClient.PingAsync(new Basket.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _calendarPingServiceClient.PingAsync(new Calendar.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _catalogPingServiceClient.PingAsync(new Catalog.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _customerPingServiceClient.PingAsync(new Customer.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _deliveryPingServiceClient.PingAsync(new Delivery.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _identityPingServiceClient.PingAsync(new Identity.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _notificationPingServiceClient.PingAsync(new Notification.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _orderPingServiceClient.PingAsync(new Order.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _paymentPingServiceClient.PingAsync(new Payment.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _pricingPingServiceClient.PingAsync(new Pricing.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync,
+            _productPingServiceClient.PingAsync(new Product.WebApi.PingRequest { Origin = _origin }, cancellationToken: context.CancellationToken).ResponseAsync
         };
 
         await Task.WhenAll(taskCollection);
@@ -65,7 +65,7 @@ public class PingGrpcService
         return new PingReply
         {
             Origin = request.Origin,
-            Server = Assembly.GetExecutingAssembly().GetName().Name
+            Server = _origin
         };
     }
 }
