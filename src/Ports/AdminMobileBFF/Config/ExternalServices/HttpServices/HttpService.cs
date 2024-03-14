@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MCIO.Demos.Store.Ports.AdminWebBFF.Config.Services.HttpServices;
+namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Config.ExternalServices.HttpServices;
 
 public class HttpService
 {

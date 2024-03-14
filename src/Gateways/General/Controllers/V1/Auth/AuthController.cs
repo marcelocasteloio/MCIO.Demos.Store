@@ -45,7 +45,7 @@ public class AuthController
     )
     {
         var result = await _identityContextService.ValidateTokenAsync(
-            authorizationHeaderValue: HttpContext.Request.Headers.Authorization,
+            authorizationHeaderValue: HttpContext.Request.Headers.Authorization!,
             cancellationToken
         );
 

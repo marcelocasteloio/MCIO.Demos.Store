@@ -23,7 +23,7 @@ public class GeneralGatewayService
     public async Task PingAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
-            requestUri: "", 
+            requestUri: $"{_config.ExternalServices.HttpServiceCollection.GeneralGateway.BaseUrl}/api/v1/ping",
             cancellationToken
         );
     }

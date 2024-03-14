@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\MCIO.Demos.Store.Gateways.General.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Gateways.General.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,21 +36,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Client" />
-	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="appsettings.Development.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <Content Update="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
+		<Content Update="appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

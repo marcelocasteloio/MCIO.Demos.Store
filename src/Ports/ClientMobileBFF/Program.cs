@@ -24,6 +24,7 @@ using System.Text.Json.Serialization;
 using MCIO.Demos.Store.Ports.ClientMobileBFF.Services.Interfaces;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
+using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -183,6 +184,11 @@ builder.Services.AddGrpc(options =>
     options.MaxReceiveMessageSize = null;
     options.MaxSendMessageSize = null;
 });
+
+// GrpcServices Client
+builder.Services.RegisterGrpcClient<MCIO.Demos.Store.Gateways.General.PingService.PingServiceClient>(
+    grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.GeneralGateway
+);
 
 #endregion [ Dependency Injection ]
 
