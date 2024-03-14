@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\ping.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Gateways.General.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,11 +31,13 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
+		<ProjectReference Include="..\..\BuildingBlock\Grpc.DependencyInjection\MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Protos\ping.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

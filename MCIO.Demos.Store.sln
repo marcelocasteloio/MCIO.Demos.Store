@@ -94,6 +94,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Calendar", "Calendar", "{B4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.Calendar.WebApi", "src\Contexts\Calendar\WebApi\MCIO.Demos.Store.Calendar.WebApi.csproj", "{7767519E-2DFB-4AC0-A9C9-6DEC192523BC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.BuildingBlock.Grpc", "src\BuildingBlock\Grpc\MCIO.Demos.Store.BuildingBlock.Grpc.csproj", "{C93C6041-5CF0-4D64-889E-92BB0D5216F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection", "src\BuildingBlock\Grpc.DependencyInjection\MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection.csproj", "{5B1D7D73-C16B-4873-A4CF-2B611196B210}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -176,6 +180,14 @@ Global
 		{7767519E-2DFB-4AC0-A9C9-6DEC192523BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7767519E-2DFB-4AC0-A9C9-6DEC192523BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7767519E-2DFB-4AC0-A9C9-6DEC192523BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C93C6041-5CF0-4D64-889E-92BB0D5216F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C93C6041-5CF0-4D64-889E-92BB0D5216F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C93C6041-5CF0-4D64-889E-92BB0D5216F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C93C6041-5CF0-4D64-889E-92BB0D5216F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B1D7D73-C16B-4873-A4CF-2B611196B210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B1D7D73-C16B-4873-A4CF-2B611196B210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B1D7D73-C16B-4873-A4CF-2B611196B210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B1D7D73-C16B-4873-A4CF-2B611196B210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,6 +234,8 @@ Global
 		{6E14354C-D1B3-4897-BC46-7668A4B3A1CA} = {B7EAA4ED-44CA-45B5-A913-12AAB30CC045}
 		{B4895D1C-B189-4F73-8E02-573D3A890F9C} = {B5963FCB-2F7D-4253-9A9D-94D71C4E1BBC}
 		{7767519E-2DFB-4AC0-A9C9-6DEC192523BC} = {B4895D1C-B189-4F73-8E02-573D3A890F9C}
+		{C93C6041-5CF0-4D64-889E-92BB0D5216F7} = {40180110-DBB8-4A6F-A78D-F6D771DF4A30}
+		{5B1D7D73-C16B-4873-A4CF-2B611196B210} = {40180110-DBB8-4A6F-A78D-F6D771DF4A30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7E5C8CF-AC27-4F01-99B7-63B7AA48FB13}
