@@ -3,5 +3,6 @@ namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
 
 public interface IGeneralGatewayService
 {
-    Task PingAsync(CancellationToken cancellationToken);
+    Task PingHttpAsync(CancellationToken cancellationToken);
+    Task PingGrpcAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
 }

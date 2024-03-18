@@ -8,6 +8,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Protos\Commom-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Ports.AdminWebBFF-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Ports.ClientWebBFF-v1.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Google.Protobuf" Version="3.25.3" />
 		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.61.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.62.0">
@@ -17,10 +25,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminWebBFF.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientWebBFF.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF-v1.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminWebBFF-v1.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientWebBFF-v1.proto" GrpcServices="Client" />
 	</ItemGroup>
 	
 </Project>

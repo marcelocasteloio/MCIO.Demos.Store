@@ -218,7 +218,7 @@ app.MapHealthChecks(
 app.MapControllers();
 
 // GrpcServices
-app.MapGrpcService<PingGrpcService>();
+//app.MapGrpcService<PingGrpcService>();
 
 // Swagger
 app.UseSwagger();

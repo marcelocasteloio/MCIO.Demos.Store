@@ -9,7 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF.proto" />
+		<None Remove="Protos\Commom-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,8 +38,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

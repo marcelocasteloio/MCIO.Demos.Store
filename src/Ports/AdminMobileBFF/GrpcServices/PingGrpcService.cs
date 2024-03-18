@@ -1,37 +1,62 @@
 ﻿using Grpc.Core;
 using System.Reflection;
+using MCIO.Demos.Store.Commom.Protos.V1;
+using MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1;
+using MCIO.Observability.Abstractions;
+using MCIO.Demos.Store.Ports.AdminMobileBFF.Adapters;
 
 namespace MCIO.Demos.Store.Ports.AdminMobileBFF.GrpcServices;
 
 public class PingGrpcService
     : PingService.PingServiceBase
 {
+    // Constants
+    public const string PING_TRACE_NAME = "GrpcPing";
+
     // Fields
-    private readonly Gateways.General.PingService.PingServiceClient _gatewayPingServiceClient;
+    private readonly ITraceManager _traceManager;
+    private readonly Gateways.General.Protos.V1.PingService.PingServiceClient _gatewayPingServiceClient;
+    private readonly static string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
 
     // Constructors
     public PingGrpcService(
-        Gateways.General.PingService.PingServiceClient gatewayPingServiceClient
+        ITraceManager traceManager,
+        Gateways.General.Protos.V1.PingService.PingServiceClient gatewayPingServiceClient
     )
     {
+        _traceManager = traceManager;
         _gatewayPingServiceClient = gatewayPingServiceClient;
     }
 
     // Public Methods
     public override async Task<PingReply> Ping(PingRequest request, ServerCallContext context)
     {
-        await _gatewayPingServiceClient.PingAsync(
-            request: new Gateways.General.PingRequest
-            {
-                Origin = Assembly.GetExecutingAssembly().GetName().Name
-            },
-            cancellationToken: context.CancellationToken
-        );
+        var executionInfo = ExecutionInfoAdapter.Adapt(request.ExecutionInfo)!.Value;
 
-        return new PingReply
-        {
-            Origin = request.Origin,
-            Server = Assembly.GetExecutingAssembly().GetName().Name
-        };
+        return await _traceManager.StartInternalActivityAsync(
+            name: PING_TRACE_NAME,
+            executionInfo,
+            input: request,
+            handler: async (activity, executionInfo, input, cancellationToken) =>
+            {
+                var reply = new PingReply();
+
+                var gatewayPingReply = await _gatewayPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken);
+
+                foreach (var replyMessage in gatewayPingReply.ReplyMessageCollection)
+                    reply.ReplyMessageCollection.Add(replyMessage);
+
+                reply.ReplyMessageCollection.Add(
+                    new ReplyMessage
+                    {
+                        Type = ReplyMessageType.Information,
+                        Code = _assemblyName
+                    }
+                );
+
+                return reply;
+            },
+            context.CancellationToken
+        );
     }
 }

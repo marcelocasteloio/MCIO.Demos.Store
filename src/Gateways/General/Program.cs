@@ -255,40 +255,40 @@ builder.Services.AddGrpc(options =>
 });
 
 // GrpcServices Client
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Analytics.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Analytics.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.AnalyticsContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Basket.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Basket.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.BasketContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Calendar.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Calendar.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CalendarContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Catalog.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Catalog.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CatalogContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Customer.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Customer.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.CustomerContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Delivery.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Delivery.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.DeliveryContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Identity.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Identity.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.IdentityContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Notification.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Notification.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.NotificationContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Order.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Order.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.OrderContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Payment.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Payment.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.PaymentContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Pricing.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Pricing.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.PricingContext
 );
-builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Product.WebApi.PingService.PingServiceClient>(
+builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Product.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.ProductContext
 );
 #endregion [ Dependency Injection ]

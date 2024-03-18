@@ -186,7 +186,7 @@ builder.Services.AddGrpc(options =>
 });
 
 // GrpcServices Client
-builder.Services.RegisterGrpcClient<MCIO.Demos.Store.Gateways.General.PingService.PingServiceClient>(
+builder.Services.RegisterGrpcClient<MCIO.Demos.Store.Gateways.General.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.GeneralGateway
 );
 

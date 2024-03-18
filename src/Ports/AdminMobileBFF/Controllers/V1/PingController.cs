@@ -24,7 +24,7 @@ public class PingController
     [HttpGet]
     public async Task<IActionResult> PingAsync(CancellationToken cancellationToken)
     {
-        await _generalGatewayService.PingAsync(cancellationToken);
+        await _generalGatewayService.PingHttpAsync(cancellationToken);
 
         return Ok();
     }

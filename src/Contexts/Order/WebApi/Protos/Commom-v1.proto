@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "MCIO.Demos.Store.Commom.Protos.V1";
+
+package MCIO.Demos.Store.Commom.Protos.V1;
+
+message PingRequest {
+  ExecutionInfo executionInfo = 1;
+}
+message PingReply {
+	repeated ReplyMessage replyMessageCollection = 1;
+}
+
+// Request
+message ExecutionInfo {
+  string correlationId = 1;
+  string tenantCode = 2;
+  string user = 3;
+  string origin = 4;
+}
+
+// Reply
+message ReplyMessage {
+  ReplyMessageType type = 1;
+  string code = 2;
+  string description = 3;
+}
+
+enum ReplyMessageType {
+  Undefinied = 0;
+  Information  = 1;
+  Success = 2;
+  Warning = 3;
+  Error = 4;
+}

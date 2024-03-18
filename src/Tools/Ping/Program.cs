@@ -1,4 +1,5 @@
 ﻿using Grpc.Net.Client;
+using MCIO.Demos.Store.Commom.Protos.V1;
 using System.Reflection;
 
 var httpUrl1 = "http://ports-admin-mobile-bff-grpc.localhost:5000/api/v1/ping";
@@ -18,18 +19,22 @@ using var channel2 = GrpcChannel.ForAddress(grpcUrl2);
 using var channel3 = GrpcChannel.ForAddress(grpcUrl3);
 using var channel4 = GrpcChannel.ForAddress(grpcUrl4);
 
-var client1 = new MCIO.Demos.Store.Ports.AdminMobileBFF.PingService.PingServiceClient(channel1);
-var client2 = new MCIO.Demos.Store.Ports.AdminWebBFF.PingService.PingServiceClient(channel2);
-var client3 = new MCIO.Demos.Store.Ports.ClientMobileBFF.PingService.PingServiceClient(channel3);
-var client4 = new MCIO.Demos.Store.Ports.ClientWebBFF.PingService.PingServiceClient(channel4);
+var client1 = new MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1.PingService.PingServiceClient(channel1);
+var client2 = new MCIO.Demos.Store.Ports.AdminWebBFF.Protos.V1.PingService.PingServiceClient(channel2);
+var client3 = new MCIO.Demos.Store.Ports.ClientMobileBFF.Protos.V1.PingService.PingServiceClient(channel3);
+var client4 = new MCIO.Demos.Store.Ports.ClientWebBFF.Protos.V1.PingService.PingServiceClient(channel4);
 
 var origin = Assembly.GetExecutingAssembly().GetName().Name;
 
-var request1 = new MCIO.Demos.Store.Ports.AdminMobileBFF.PingRequest() { Origin = origin };
-var request2 = new MCIO.Demos.Store.Ports.AdminWebBFF.PingRequest() { Origin = origin };
-var request3 = new MCIO.Demos.Store.Ports.ClientMobileBFF.PingRequest() { Origin = origin };
-var request4 = new MCIO.Demos.Store.Ports.ClientWebBFF.PingRequest() { Origin = origin };
-
+var pingRequest = new PingRequest
+{
+    ExecutionInfo = new ExecutionInfo { 
+        CorrelationId = Guid.NewGuid().ToString(),
+        Origin = origin,
+        TenantCode = Guid.NewGuid().ToString(),
+        User = origin
+    }
+};
 
 for (int i = 0; i < 10; i++)
 {
@@ -46,16 +51,16 @@ for (int i = 0; i < 10; i++)
     await httpClient.GetAsync(httpUrl4);
 
     Console.WriteLine(grpcUrl1);
-    await client1.PingAsync(request1);
+    await client1.PingAsync(pingRequest);
 
     Console.WriteLine(grpcUrl2);
-    await client2.PingAsync(request2);
+    await client2.PingAsync(pingRequest);
 
     Console.WriteLine(grpcUrl3);
-    await client3.PingAsync(request3);
+    await client3.PingAsync(pingRequest);
 
     Console.WriteLine(grpcUrl4);
-    await client4.PingAsync(request4);
+    await client4.PingAsync(pingRequest);
 
     Console.WriteLine("-------------------------");
 }

@@ -9,7 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\MCIO.Demos.Store.Pricing.WebApi.proto" />
+	  <None Remove="Protos\Commom-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Pricing.WebApi-v1.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -17,6 +18,7 @@
 		<PackageReference Include="Asp.Versioning.Http" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+		<PackageReference Include="MarceloCastelo.IO.Core" Version="1.1.0" />
 		<PackageReference Include="MarceloCastelo.IO.Observability.OpenTelemetry" Version="1.0.0" />
 		<PackageReference Include="OpenTelemetry" Version="1.7.0" />
 		<PackageReference Include="OpenTelemetry.Api.ProviderBuilderExtensions" Version="1.7.0" />
@@ -35,7 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Protos\MCIO.Demos.Store.Pricing.WebApi.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Pricing.WebApi-v1.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

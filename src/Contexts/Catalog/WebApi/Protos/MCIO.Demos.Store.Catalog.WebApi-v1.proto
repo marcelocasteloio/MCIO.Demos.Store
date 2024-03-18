@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "MCIO.Demos.Store.Catalog.WebApi.Protos.V1";
+
+package MCIO.Demos.Store.Catalog.WebApi.Protos.V1;
+
+import "Protos/Commom-v1.proto";
+
+// Ping
+service PingService {
+  rpc Ping(MCIO.Demos.Store.Commom.Protos.V1.PingRequest) returns (MCIO.Demos.Store.Commom.Protos.V1.PingReply);
+}

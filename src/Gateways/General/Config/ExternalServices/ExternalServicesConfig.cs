@@ -1,5 +1,5 @@
-﻿using MCIO.Demos.Store.Gateways.General.Config.ExternalServices.HttpServices;
-using MCIO.Demos.Store.Ports.ClientWebBFF.Config.ExternalServices.GrpcServices;
+﻿using MCIO.Demos.Store.Gateways.General.Config.ExternalServices.GrpcServices;
+using MCIO.Demos.Store.Gateways.General.Config.ExternalServices.HttpServices;
 using System.ComponentModel.DataAnnotations;
 
 namespace MCIO.Demos.Store.Gateways.General.Config.ExternalServices;

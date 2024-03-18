@@ -1,7 +1,7 @@
 ﻿using MCIO.Demos.Store.BuildingBlock.Grpc.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MCIO.Demos.Store.Ports.ClientWebBFF.Config.ExternalServices.GrpcServices;
+namespace MCIO.Demos.Store.Gateways.General.Config.ExternalServices.GrpcServices;
 
 public class GrpcServiceCollectionConfig
 {

@@ -9,19 +9,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Protos\MCIO.Demos.Store.Analytics.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Basket.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Calendar.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Catalog.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Customer.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Delivery.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Gateways.General.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Identity.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Notification.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Order.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Payment.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Pricing.WebApi.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Product.WebApi.proto" />
+		<None Remove="Protos\Commom-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Analytics.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Basket.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Calendar.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Catalog.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Customer.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Delivery.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Identity.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Notification.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Order.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Payment.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Pricing.WebApi-v1.proto" />
+		<None Remove="Protos\MCIO.Demos.Store.Product.WebApi-v1.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,22 +50,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Protos\MCIO.Demos.Store.Analytics.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Basket.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Calendar.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Catalog.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Customer.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Delivery.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Identity.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Notification.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Order.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Payment.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Pricing.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Product.WebApi.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General.proto" GrpcServices="Server" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="appsettings.Development.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -75,6 +60,24 @@
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" GrpcServices="Server" />
+
+		<Protobuf Include="Protos\MCIO.Demos.Store.Analytics.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Basket.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Calendar.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Catalog.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Customer.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Delivery.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Identity.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Notification.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Order.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Payment.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Pricing.WebApi-v1.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Product.WebApi-v1.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>
