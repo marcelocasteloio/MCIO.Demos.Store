@@ -7,7 +7,7 @@ namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Controllers.V1;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1")]
-public class PingController 
+public class PingController
     : ControllerBase
 {
     // Fields

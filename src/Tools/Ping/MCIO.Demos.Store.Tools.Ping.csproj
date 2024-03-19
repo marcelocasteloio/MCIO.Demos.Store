@@ -9,6 +9,7 @@
 
 	<ItemGroup>
 	  <None Remove="Protos\Commom-v1.proto" />
+	  <None Remove="Protos\MCIO.Demos.Store.Customer.WebApi-v1.proto" />
 	  <None Remove="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF-v1.proto" />
 	  <None Remove="Protos\MCIO.Demos.Store.Ports.AdminWebBFF-v1.proto" />
 	  <None Remove="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" />
@@ -26,6 +27,7 @@
 
 	<ItemGroup>
 	  <Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\MCIO.Demos.Store.Customer.WebApi-v1.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF-v1.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminWebBFF-v1.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\MCIO.Demos.Store.Ports.ClientMobileBFF-v1.proto" GrpcServices="Client" />

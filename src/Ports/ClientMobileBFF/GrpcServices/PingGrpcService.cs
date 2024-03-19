@@ -11,7 +11,7 @@ public class PingGrpcService
     : PingService.PingServiceBase
 {
     // Constants
-    public const string PING_TRACE_NAME = "GrpcPing";
+    public readonly static string PING_TRACE_NAME = $"{Assembly.GetExecutingAssembly().GetName().Name}.GrpcPing";
 
     // Fields
     private readonly ITraceManager _traceManager;
