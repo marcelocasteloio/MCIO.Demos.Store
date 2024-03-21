@@ -95,14 +95,15 @@ public abstract class ResiliencePolicyBase
         var success = policyResult.Outcome == OutcomeType.Successful;
 
         if (!success)
-            return OutputEnvelop.OutputEnvelop.CreateError(
+            return OutputEnvelop<TOutput?>.CreateError(
+                output: default,
                 RETRY_POLICY_FAILED_MESSAGE_CODE,
                 RETRY_POLICY_FAILED_MESSAGE_DESCRIPTION
             );
 
         ResetCurrentRetryCount();
 
-        return (OutputEnvelop.OutputEnvelop)policyResult.Context[RETRY_POLICY_CONTEXT_OUTPUT_KEY];
+        return (OutputEnvelop<TOutput?>)policyResult.Context[RETRY_POLICY_CONTEXT_OUTPUT_KEY];
     }
     public async Task<OutputEnvelop.OutputEnvelop> ExecuteAsync<TInput>(Func<TInput?, CancellationToken, Task<OutputEnvelop.OutputEnvelop>> handler, TInput? input, CancellationToken cancellationToken)
     {
@@ -157,14 +158,15 @@ public abstract class ResiliencePolicyBase
         var success = policyResult.Outcome == OutcomeType.Successful;
 
         if (!success)
-            return OutputEnvelop.OutputEnvelop.CreateError(
+            return OutputEnvelop<TOutput?>.CreateError(
+                output: default,
                 RETRY_POLICY_FAILED_MESSAGE_CODE,
                 RETRY_POLICY_FAILED_MESSAGE_DESCRIPTION
             );
 
         ResetCurrentRetryCount();
 
-        return (OutputEnvelop.OutputEnvelop)policyResult.Context[RETRY_POLICY_CONTEXT_OUTPUT_KEY];
+        return (OutputEnvelop<TOutput?>)policyResult.Context[RETRY_POLICY_CONTEXT_OUTPUT_KEY];
     }
 
     public override string ToString()
@@ -181,7 +183,7 @@ public abstract class ResiliencePolicyBase
         var resilienceConfig = new ResiliencePolicyOptions();
 
         ConfigureInternal(resilienceConfig);
-        ApplyConfig(ResilienceConfig);
+        ApplyConfig(resilienceConfig);
 
         ResilienceConfig = resilienceConfig;
     }

@@ -4,6 +4,8 @@ using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1;
 using MCIO.Observability.Abstractions;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Adapters;
+using MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
+using MCIO.OutputEnvelop;
 
 namespace MCIO.Demos.Store.Ports.AdminMobileBFF.GrpcServices;
 
@@ -15,17 +17,17 @@ public class PingGrpcService
 
     // Fields
     private readonly ITraceManager _traceManager;
-    private readonly Gateways.General.Protos.V1.PingService.PingServiceClient _gatewayPingServiceClient;
+    private readonly IGeneralGatewayService _generalGatewayService;
     private readonly static string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
 
     // Constructors
     public PingGrpcService(
         ITraceManager traceManager,
-        Gateways.General.Protos.V1.PingService.PingServiceClient gatewayPingServiceClient
+        IGeneralGatewayService generalGatewayService
     )
     {
         _traceManager = traceManager;
-        _gatewayPingServiceClient = gatewayPingServiceClient;
+        _generalGatewayService = generalGatewayService;
     }
 
     // Public Methods
@@ -33,7 +35,7 @@ public class PingGrpcService
     {
         var executionInfo = ExecutionInfoAdapter.Adapt(request.ExecutionInfo)!.Value;
 
-        return await _traceManager.StartInternalActivityAsync(
+        var pingOutput = await _traceManager.StartInternalActivityAsync<PingRequest, OutputEnvelop<PingReply?>>(
             name: PING_TRACE_NAME,
             executionInfo,
             input: request,
@@ -41,9 +43,12 @@ public class PingGrpcService
             {
                 var reply = new PingReply();
 
-                var gatewayPingReply = await _gatewayPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken);
+                var pingGrpcOutput = await _generalGatewayService.PingGrpcAsync(executionInfo, cancellationToken);
 
-                foreach (var replyMessage in gatewayPingReply.ReplyMessageCollection)
+                if (!pingGrpcOutput.IsSuccess)
+                    return pingGrpcOutput;
+
+                foreach (var replyMessage in pingGrpcOutput.Output!.ReplyMessageCollection)
                     reply.ReplyMessageCollection.Add(replyMessage);
 
                 reply.ReplyMessageCollection.Add(
@@ -54,9 +59,34 @@ public class PingGrpcService
                     }
                 );
 
-                return reply;
+                return OutputEnvelop<PingReply?>.CreateSuccess(reply);
             },
             context.CancellationToken
         );
+
+        if(!pingOutput.IsSuccess)
+        {
+            var reply = new PingReply();
+
+            foreach (var outputMessage in pingOutput.OutputMessageCollection)
+            {
+                reply.ReplyMessageCollection.Add(new ReplyMessage() { 
+                    Code = outputMessage.Code,
+                    Description = outputMessage.Description,
+                    Type = outputMessage.Type switch
+                    {
+                        OutputEnvelop.Enums.OutputMessageType.Information => ReplyMessageType.Information,
+                        OutputEnvelop.Enums.OutputMessageType.Success => ReplyMessageType.Success,
+                        OutputEnvelop.Enums.OutputMessageType.Warning => ReplyMessageType.Warning,
+                        OutputEnvelop.Enums.OutputMessageType.Error => ReplyMessageType.Error,
+                        _ => ReplyMessageType.Information
+                    }
+                });
+            }
+
+            return reply;
+        }
+
+        return pingOutput.Output!;
     }
 }

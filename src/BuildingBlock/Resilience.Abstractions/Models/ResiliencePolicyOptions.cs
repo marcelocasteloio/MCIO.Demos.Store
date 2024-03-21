@@ -1,6 +1,6 @@
 ﻿namespace MCIO.Demos.Store.BuildingBlock.Resilience.Abstractions.Models;
 
-public struct ResiliencePolicyOptions
+public class ResiliencePolicyOptions
 {
     // Constants
     public const int DEFAULT_RETRY_MAX_ATTEMPT_COUNT = 3;

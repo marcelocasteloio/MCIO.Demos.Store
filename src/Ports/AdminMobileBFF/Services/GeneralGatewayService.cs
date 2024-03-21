@@ -2,8 +2,7 @@
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Adapters;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
-using Polly;
-using System.Reflection;
+using MCIO.OutputEnvelop;
 
 namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Services;
 
@@ -39,12 +38,12 @@ public class GeneralGatewayService
             cancellationToken
         );
     }
-    public async Task PingGrpcAsync(ExecutionInfo executionInfo, CancellationToken cancellationToken)
+    public Task<OutputEnvelop<Commom.Protos.V1.PingReply?>> PingGrpcAsync(ExecutionInfo executionInfo, CancellationToken cancellationToken)
     {
-        await _generalGatewayPingGrpcOperationResiliencePolicy.ExecuteAsync(
+        return _generalGatewayPingGrpcOperationResiliencePolicy.ExecuteAsync(
             handler: async cancellationToken =>
             {
-                await _gatewayPingServiceClient.PingAsync(
+                var pingReply = await _gatewayPingServiceClient.PingAsync(
                     request: new Commom.Protos.V1.PingRequest
                     {
                         ExecutionInfo = ExecutionInfoAdapter.Adapt(executionInfo)
@@ -52,7 +51,7 @@ public class GeneralGatewayService
                     cancellationToken: cancellationToken
                 );
 
-                return OutputEnvelop.OutputEnvelop.CreateSuccess();
+                return OutputEnvelop<Commom.Protos.V1.PingReply?>.CreateSuccess(pingReply);
             },
             cancellationToken: cancellationToken
         );

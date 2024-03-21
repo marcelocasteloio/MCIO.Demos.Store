@@ -3,7 +3,7 @@ using MCIO.Demos.Store.Commom.Protos.V1;
 using System.Reflection;
 using System.Text.Json;
 
-//var testUrl = "http://localhost:8012";
+//var testUrl = "http://localhost:6032";
 //using var testChannel = GrpcChannel.ForAddress(testUrl);
 //var testOrigin = "test";
 
@@ -17,7 +17,7 @@ using System.Text.Json;
 //        User = testOrigin
 //    }
 //};
-//var testClient = new MCIO.Demos.Store.Customer.WebApi.Protos.V1.PingService.PingServiceClient(testChannel);
+//var testClient = new MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1.PingService.PingServiceClient(testChannel);
 
 //Console.WriteLine("Test ping start");
 //var reply = await testClient.PingAsync(testPingRequest);
@@ -63,34 +63,40 @@ var pingRequest = new PingRequest
     }
 };
 
-for (int i = 0; i < 10; i++)
-{
-    Console.WriteLine(httpUrl1);
-    await httpClient.GetAsync(httpUrl1);
+await Parallel.ForAsync(
+    fromInclusive: 0,
+    toExclusive: 1_000,
+    cancellationToken: CancellationToken.None,
+    body: async (i, cancellationToken) =>
+    {
+        Console.WriteLine(httpUrl1);
+        await httpClient.GetAsync(httpUrl1);
 
-    Console.WriteLine(httpUrl2);
-    await httpClient.GetAsync(httpUrl2);
+        Console.WriteLine(httpUrl2);
+        await httpClient.GetAsync(httpUrl2);
 
-    Console.WriteLine(httpUrl3);
-    await httpClient.GetAsync(httpUrl3);
+        Console.WriteLine(httpUrl3);
+        await httpClient.GetAsync(httpUrl3);
 
-    Console.WriteLine(httpUrl4);
-    await httpClient.GetAsync(httpUrl4);
+        Console.WriteLine(httpUrl4);
+        await httpClient.GetAsync(httpUrl4);
 
-    Console.WriteLine(grpcUrl1);
-    await client1.PingAsync(pingRequest);
+        Console.WriteLine(grpcUrl1);
+        await client1.PingAsync(pingRequest);
 
-    Console.WriteLine(grpcUrl2);
-    await client2.PingAsync(pingRequest);
+        Console.WriteLine(grpcUrl2);
+        await client2.PingAsync(pingRequest);
 
-    Console.WriteLine(grpcUrl3);
-    await client3.PingAsync(pingRequest);
+        Console.WriteLine(grpcUrl3);
+        await client3.PingAsync(pingRequest);
 
-    Console.WriteLine(grpcUrl4);
-    await client4.PingAsync(pingRequest);
+        Console.WriteLine(grpcUrl4);
+        await client4.PingAsync(pingRequest);
 
-    Console.WriteLine("-------------------------");
-}
+        Console.WriteLine("-------------------------");
+    }
+);
+
 
 Console.WriteLine("\nPress [ENTER] to exit...");
 Console.ReadLine();
