@@ -3,31 +3,31 @@ using MCIO.Demos.Store.Commom.Protos.V1;
 using System.Reflection;
 using System.Text.Json;
 
-//var testUrl = "http://localhost:6032";
-//using var testChannel = GrpcChannel.ForAddress(testUrl);
-//var testOrigin = "test";
+var testUrl = "http://localhost:6032";
+using var testChannel = GrpcChannel.ForAddress(testUrl);
+var testOrigin = "test";
 
-//var testPingRequest = new PingRequest
-//{
-//    ExecutionInfo = new ExecutionInfo
-//    {
-//        CorrelationId = Guid.NewGuid().ToString(),
-//        Origin = testOrigin,
-//        TenantCode = Guid.NewGuid().ToString(),
-//        User = testOrigin
-//    }
-//};
-//var testClient = new MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1.PingService.PingServiceClient(testChannel);
+var testPingRequest = new PingRequest
+{
+    ExecutionInfo = new ExecutionInfo
+    {
+        CorrelationId = Guid.NewGuid().ToString(),
+        Origin = testOrigin,
+        TenantCode = Guid.NewGuid().ToString(),
+        User = testOrigin
+    }
+};
+var testClient = new MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1.PingService.PingServiceClient(testChannel);
 
-//Console.WriteLine("Test ping start");
-//var reply = await testClient.PingAsync(testPingRequest);
+Console.WriteLine("Test ping start");
+var reply = await testClient.PingAsync(testPingRequest);
 
-//Console.WriteLine(JsonSerializer.Serialize(reply));
-//Console.WriteLine("Test ping end");
+Console.WriteLine(JsonSerializer.Serialize(reply));
+Console.WriteLine("Test ping end");
 
-//Console.ReadLine();
+Console.ReadLine();
 
-//return;
+return;
 
 var httpUrl1 = "http://ports-admin-mobile-bff-grpc.localhost:5000/api/v1/ping";
 var httpUrl2 = "http://ports-admin-web-bff-grpc.localhost:5000/api/v1/ping";
@@ -65,7 +65,7 @@ var pingRequest = new PingRequest
 
 await Parallel.ForAsync(
     fromInclusive: 0,
-    toExclusive: 1_000,
+    toExclusive: 10,
     cancellationToken: CancellationToken.None,
     body: async (i, cancellationToken) =>
     {

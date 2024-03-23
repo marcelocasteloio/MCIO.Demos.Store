@@ -4,7 +4,6 @@ using System.Reflection;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Gateways.General.Protos.V1;
 using MCIO.Observability.Abstractions;
-using MCIO.Core.ExecutionInfo;
 using MCIO.Demos.Store.Gateways.General.Adapters;
 
 namespace MCIO.Demos.Store.Gateways.General.GrpcServices;

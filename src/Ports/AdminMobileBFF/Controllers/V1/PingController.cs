@@ -1,4 +1,6 @@
 ﻿using Asp.Versioning;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,20 +13,30 @@ public class PingController
     : ControllerBase
 {
     // Fields
+    private readonly IExecutionInfoAccessor _executionInfoAccessor;
     private readonly IGeneralGatewayService _generalGatewayService;
 
     // Constructors
     public PingController(
+        IExecutionInfoAccessor executionInfoAccessor,
         IGeneralGatewayService generalGatewayService
     )
     {
+        _executionInfoAccessor = executionInfoAccessor;
         _generalGatewayService = generalGatewayService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> PingAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> PingAsync(
+        CancellationToken cancellationToken
+    )
     {
-        await _generalGatewayService.PingHttpAsync(cancellationToken);
+        var executionInfo = _executionInfoAccessor.CreateRequiredExecutionInfo();
+
+        await _generalGatewayService.PingHttpAsync(
+            executionInfo,
+            cancellationToken
+        );
 
         return Ok();
     }

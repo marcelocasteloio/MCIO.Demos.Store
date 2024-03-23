@@ -27,6 +27,8 @@ using System.Net;
 using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
+using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,6 +123,37 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.linkedin.com/company/marcelocasteloio")
         }
     });
+
+    options.OperationFilter<AddRequiredHeaderParameterOperationFilter>();
+
+    options.AddSecurityDefinition(
+        name: "Bearer",
+        securityScheme: new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        }
+    );
+    options.AddSecurityRequirement(
+        securityRequirement: new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        }
+    );
 });
 
 // Routing
@@ -178,6 +211,12 @@ builder.Services
 // Services
 builder.Services
     .AddScoped<IGeneralGatewayService, GeneralGatewayService>().AddHttpClient<GeneralGatewayService>();
+
+// HttpContext Accessor
+builder.Services.AddHttpContextAccessor();
+
+// Execution Info Accessor
+builder.Services.AddExecutionInfoAccessor();
 
 // GrpcServices
 builder.Services.AddGrpc(options =>

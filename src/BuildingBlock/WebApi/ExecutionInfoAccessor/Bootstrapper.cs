@@ -12,12 +12,14 @@ public static class Bootstrapper
         return services.AddScoped<IExecutionInfoAccessor>(serviceProvider =>
         {
             Guid? tenantCode = null;
+            Guid? correlationId = null;
             string? user = null;
             string? acceptLanguage = null;
+            string? origin = null;
 
             var httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
             if (httpContextAccessor?.HttpContext is null)
-                return new ExecutionInfoAccessor(tenantCode, user, acceptLanguage);
+                return new ExecutionInfoAccessor(correlationId, tenantCode, user, acceptLanguage, origin);
 
             var httpContext = httpContextAccessor.HttpContext;
 
@@ -25,13 +27,25 @@ public static class Bootstrapper
                 if (Guid.TryParse(tenantCodeHeaderValue.ToString(), out var tenantCodeParsed))
                     tenantCode = tenantCodeParsed;
 
+            if (httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.CORRELATION_ID_HEADER_KEY, out var correlationIdHeaderValue))
+                if (Guid.TryParse(correlationIdHeaderValue.ToString(), out var correlationIdParsed))
+                    correlationId = correlationIdParsed;
+
             if (httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.USER_HEADER_KEY, out var userHeaderValue))
                 user = userHeaderValue;
 
-            if (httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.ACCEPT_LANGUAGE_HEADER_KEY, out var acceptLanguageHeaderValue))
-                acceptLanguage = acceptLanguageHeaderValue;
+            acceptLanguage = httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.ACCEPT_LANGUAGE_HEADER_KEY, out var acceptLanguageHeaderValue)
+                ? (string?)acceptLanguageHeaderValue
+                : "en-US";
 
-            return new ExecutionInfoAccessor(tenantCode, user, acceptLanguage);
+            if (httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.ORIGIN_HEADER_KEY, out var originHeaderValue))
+                origin = originHeaderValue;
+            else 
+                origin = httpContext.Request.Headers.TryGetValue(IExecutionInfoAccessor.HOST_HEADER_KEY, out var hostHeaderValue) 
+                    ? (string?)hostHeaderValue 
+                    : IExecutionInfoAccessor.DEFAULT_ORIGIN_VALUE;
+
+            return new ExecutionInfoAccessor(correlationId, tenantCode, user, acceptLanguage, origin);
         });
     }
 }

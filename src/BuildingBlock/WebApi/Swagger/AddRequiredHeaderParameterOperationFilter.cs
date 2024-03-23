@@ -9,12 +9,18 @@ public class AddRequiredHeaderParameterOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null)
+        if (operation.Parameters is null)
             operation.Parameters = [];
 
         operation.Parameters.Add(new OpenApiParameter
         {
             Name = IExecutionInfoAccessor.TENANT_CODE_HEADER_KEY,
+            In = ParameterLocation.Header,
+            Required = true
+        });
+        operation.Parameters.Add(new OpenApiParameter
+        {
+            Name = IExecutionInfoAccessor.CORRELATION_ID_HEADER_KEY,
             In = ParameterLocation.Header,
             Required = true
         });

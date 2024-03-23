@@ -2,58 +2,106 @@
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Adapters;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
+using MCIO.Observability.Abstractions;
 using MCIO.OutputEnvelop;
+using MCIO.OutputEnvelop.Enums;
 
 namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Services;
 
 public class GeneralGatewayService
     : IGeneralGatewayService
 {
+    // Constants
+    public static readonly string HTTP_PING_TRACE_NAME = $"{nameof(GeneralGatewayService)}.Http";
+    public static readonly string GRPC_PING_TRACE_NAME = $"{nameof(GeneralGatewayService)}.Grpc";
+
     // Fields
+    private readonly ITraceManager _traceManager;
+
     private readonly HttpClient _httpClient;
     private readonly Gateways.General.Protos.V1.PingService.PingServiceClient _gatewayPingServiceClient;
-    private readonly Config.Config _config;
+
+    private readonly IGeneralGatewayPingHttpOperationResiliencePolicy _generalGatewayPingHttpOperationResiliencePolicy;
     private readonly IGeneralGatewayPingGrpcOperationResiliencePolicy _generalGatewayPingGrpcOperationResiliencePolicy;
+
+    private readonly string _httpRequestUri;
 
     // Constructors
     public GeneralGatewayService(
+        ITraceManager traceManager,
+        Config.Config config,
+
         HttpClient httpClient,
         Gateways.General.Protos.V1.PingService.PingServiceClient gatewayPingServiceClient,
-        Config.Config config,
+
+        IGeneralGatewayPingHttpOperationResiliencePolicy generalGatewayPingHttpOperationResiliencePolicy,
         IGeneralGatewayPingGrpcOperationResiliencePolicy generalGatewayPingGrpcOperationResiliencePolicy
     )
     {
+        _traceManager = traceManager;
+        _httpRequestUri = $"{config.ExternalServices.HttpServiceCollection.GeneralGateway.BaseUrl}/api/v1/ping";
+
         _httpClient = httpClient;
-        _config = config;
         _gatewayPingServiceClient = gatewayPingServiceClient;
+
+        _generalGatewayPingHttpOperationResiliencePolicy = generalGatewayPingHttpOperationResiliencePolicy;
         _generalGatewayPingGrpcOperationResiliencePolicy = generalGatewayPingGrpcOperationResiliencePolicy;
     }
 
 
     // Public Methods
-    public async Task PingHttpAsync(CancellationToken cancellationToken)
+    public Task<OutputEnvelop<HttpResponseMessage?>> PingHttpAsync(ExecutionInfo executionInfo, CancellationToken cancellationToken)
     {
-        await _httpClient.GetAsync(
-            requestUri: $"{_config.ExternalServices.HttpServiceCollection.GeneralGateway.BaseUrl}/api/v1/ping",
+        return _generalGatewayPingHttpOperationResiliencePolicy.ExecuteAsync(
+            handler: cancellationToken =>
+            {
+                return _traceManager.StartInternalActivityAsync(
+                    name: HTTP_PING_TRACE_NAME,
+                    executionInfo,
+                    handler: async (activity, executionInfo, cancellationToken) =>
+                    {
+                        var response = await _httpClient.GetAsync(
+                            requestUri: _httpRequestUri,
+                            cancellationToken
+                        );
+
+                        return OutputEnvelop<HttpResponseMessage?>.Create(
+                            output: response,
+                            type: response.IsSuccessStatusCode 
+                                ? OutputEnvelopType.Success 
+                                : OutputEnvelopType.Error
+                        );
+                    },
+                    cancellationToken
+                );
+            },
             cancellationToken
         );
     }
     public Task<OutputEnvelop<Commom.Protos.V1.PingReply?>> PingGrpcAsync(ExecutionInfo executionInfo, CancellationToken cancellationToken)
     {
         return _generalGatewayPingGrpcOperationResiliencePolicy.ExecuteAsync(
-            handler: async cancellationToken =>
+            handler: cancellationToken =>
             {
-                var pingReply = await _gatewayPingServiceClient.PingAsync(
-                    request: new Commom.Protos.V1.PingRequest
+                return _traceManager.StartInternalActivityAsync(
+                    name: GRPC_PING_TRACE_NAME,
+                    executionInfo,
+                    handler: async (activity, executionInfo, cancellationToken) =>
                     {
-                        ExecutionInfo = ExecutionInfoAdapter.Adapt(executionInfo)
+                        return OutputEnvelop<Commom.Protos.V1.PingReply?>.CreateSuccess(
+                            await _gatewayPingServiceClient.PingAsync(
+                                request: new Commom.Protos.V1.PingRequest
+                                {
+                                    ExecutionInfo = ExecutionInfoAdapter.Adapt(executionInfo)
+                                },
+                                cancellationToken: cancellationToken
+                            )
+                        );
                     },
-                    cancellationToken: cancellationToken
+                    cancellationToken
                 );
-
-                return OutputEnvelop<Commom.Protos.V1.PingReply?>.CreateSuccess(pingReply);
             },
-            cancellationToken: cancellationToken
+            cancellationToken
         );
     }
 }
