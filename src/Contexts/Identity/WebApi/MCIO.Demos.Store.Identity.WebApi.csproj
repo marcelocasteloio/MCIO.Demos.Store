@@ -20,7 +20,7 @@
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
 		<PackageReference Include="MarceloCastelo.IO.Core" Version="1.1.0" />
 		<PackageReference Include="MarceloCastelo.IO.Observability.OpenTelemetry" Version="1.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
 		<PackageReference Include="OpenTelemetry" Version="1.7.0" />
 		<PackageReference Include="OpenTelemetry.Api.ProviderBuilderExtensions" Version="1.7.0" />
 		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />

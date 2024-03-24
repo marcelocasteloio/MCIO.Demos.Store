@@ -2,22 +2,29 @@
 
 public static class ExecutionInfoAdapter
 {
+    // Constants
+    public const string CORRELATION_ID_SHOULD_BE_A_GUID_MESSAGE_CODE = "ExecutionInfoAdapter.CorrelationId.Should.Be.Guid";
+    public const string CORRELATION_ID_SHOULD_BE_A_GUID_MESSAGE_DESCRIPTION = "CorrelationId shoul be a GUID";
+
+    // Public Methods
     public static Core.ExecutionInfo.ExecutionInfo? Adapt(Commom.Protos.V1.ExecutionInfo? executionInfo)
     {
         if (executionInfo == null)
             return null;
 
         if (!Guid.TryParse(executionInfo.CorrelationId, out var correlationId))
-            throw new InvalidOperationException("CorrelationId shoul be a GUID");
+            throw new InvalidOperationException();
 
         if (!Guid.TryParse(executionInfo.TenantCode, out var tenantCode))
-            throw new InvalidOperationException("TenantCode shoul be a GUID");
+            throw new InvalidOperationException(
+                $"{CORRELATION_ID_SHOULD_BE_A_GUID_MESSAGE_CODE}: {CORRELATION_ID_SHOULD_BE_A_GUID_MESSAGE_DESCRIPTION}"
+            );
 
         var tenantInfoOutput = Core.TenantInfo.TenantInfo.FromExistingCode(tenantCode);
 
         if (!tenantInfoOutput.IsSuccess)
             throw new InvalidOperationException(
-                string.Join("|", tenantInfoOutput.OutputMessageCollection.Select(q => $"{q.Type} - {q.Code} - {q.Description}"))
+                string.Join("|", tenantInfoOutput.OutputMessageCollection.Select(q => q.ToString()))
             );
 
         var executionInfoOutput = Core.ExecutionInfo.ExecutionInfo.Create(
@@ -29,7 +36,7 @@ public static class ExecutionInfoAdapter
 
         if (!executionInfoOutput.IsSuccess)
             throw new InvalidOperationException(
-                string.Join("|", executionInfoOutput.OutputMessageCollection.Select(q => $"{q.Type} - {q.Code} - {q.Description}"))
+                string.Join("|", executionInfoOutput.OutputMessageCollection.Select(q => q.ToString()))
             );
 
         return executionInfoOutput.Output!.Value;
