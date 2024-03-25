@@ -4,7 +4,7 @@ using System.Reflection;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Gateways.General.Protos.V1;
 using MCIO.Observability.Abstractions;
-using MCIO.Demos.Store.Gateways.General.Adapters;
+using MCIO.Demos.Store.Gateways.General.Factories;
 
 namespace MCIO.Demos.Store.Gateways.General.GrpcServices;
 
@@ -54,7 +54,7 @@ public class PingGrpcService
 
     public override async Task<PingReply> Ping(PingRequest request, ServerCallContext context)
     {
-        var executionInfo = ExecutionInfoAdapter.Adapt(request.ExecutionInfo)!.Value;
+        var executionInfo = ExecutionInfoFactory.Create(request.RequestHeader.ExecutionInfo)!.Value;
 
         return await _traceManager.StartInternalActivityAsync(
             name: PING_TRACE_NAME,
@@ -62,7 +62,10 @@ public class PingGrpcService
             input: request,
             handler: async (activity, executionInfo, input, cancellationToken) =>
             {
-                var reply = new PingReply();
+                var reply = new PingReply()
+                {
+                    ReplyHeader = new ReplyHeader()
+                };
 
                 var replyCollection = new List<PingReply>();
 
@@ -116,11 +119,11 @@ public class PingGrpcService
 
                 foreach (var item in replyCollection)
                 {
-                    foreach (var replyMessage in item.ReplyMessageCollection)
-                        reply.ReplyMessageCollection.Add(replyMessage);
+                    foreach (var replyMessage in item.ReplyHeader.ReplyMessageCollection)
+                        reply.ReplyHeader.ReplyMessageCollection.Add(replyMessage);
                 }
 
-                reply.ReplyMessageCollection.Add(
+                reply.ReplyHeader.ReplyMessageCollection.Add(
                     new ReplyMessage
                     {
                         Type = ReplyMessageType.Information,

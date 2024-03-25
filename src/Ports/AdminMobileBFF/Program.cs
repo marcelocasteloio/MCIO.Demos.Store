@@ -28,7 +28,7 @@ using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies;
 using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
-using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
+using MCIO.Demos.Store.Core.WebApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 

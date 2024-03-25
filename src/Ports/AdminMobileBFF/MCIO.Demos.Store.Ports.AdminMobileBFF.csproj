@@ -9,15 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Protos\Commom-v1.proto" />
-		<None Remove="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.61.0" />
 		<PackageReference Include="Asp.Versioning.Http" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+		<PackageReference Include="MarceloCastelo.IO.Core" Version="1.1.0" />
 		<PackageReference Include="MarceloCastelo.IO.Observability.OpenTelemetry" Version="1.0.0" />
 		<PackageReference Include="OpenTelemetry" Version="1.7.0" />
 		<PackageReference Include="OpenTelemetry.Api.ProviderBuilderExtensions" Version="1.7.0" />
@@ -35,12 +31,12 @@
 		<ProjectReference Include="..\..\BuildingBlock\Grpc.DependencyInjection\MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\Resilience\MCIO.Demos.Store.BuildingBlock.Resilience.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
+		<ProjectReference Include="..\..\Core\WebApi\MCIO.Demos.Store.Core.WebApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" GrpcServices="Client" />
-		
 		<Protobuf Include="Protos\Commom-v1.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\MCIO.Demos.Store.Gateways.General-v1.proto" GrpcServices="Client" />
 		<Protobuf Include="Protos\MCIO.Demos.Store.Ports.AdminMobileBFF-v1.proto" GrpcServices="Server" />
 	</ItemGroup>
 

@@ -3,7 +3,7 @@ using System.Reflection;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Pricing.WebApi.Protos.V1;
 using MCIO.Observability.Abstractions;
-using MCIO.Demos.Store.Pricing.WebApi.Adapters;
+using MCIO.Demos.Store.Pricing.WebApi.Factories;
 
 namespace MCIO.Demos.Store.Pricing.WebApi.GrpcServices;
 
@@ -26,7 +26,7 @@ public class PingGrpcService
     // Public Methods
     public override async Task<PingReply> Ping(PingRequest request, ServerCallContext context)
     {
-        var executionInfo = ExecutionInfoAdapter.Adapt(request.ExecutionInfo)!.Value;
+        var executionInfo = ExecutionInfoFactory.Create(request.RequestHeader.ExecutionInfo)!.Value;
 
         return await _traceManager.StartInternalActivityAsync(
             name: PING_TRACE_NAME,
@@ -34,9 +34,12 @@ public class PingGrpcService
             input: request,
             handler: (activity, executionInfo, input, cancellationToken) =>
             {
-                var reply = new PingReply();
+                var reply = new PingReply()
+                {
+                    ReplyHeader = new ReplyHeader()
+                };
 
-                reply.ReplyMessageCollection.Add(
+                reply.ReplyHeader.ReplyMessageCollection.Add(
                     new ReplyMessage
                     {
                         Type = ReplyMessageType.Information,

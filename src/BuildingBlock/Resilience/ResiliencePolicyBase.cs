@@ -26,7 +26,7 @@ public abstract class ResiliencePolicyBase
     public Abstractions.Enums.CircuitState CircuitState => GetCircuitState(_asyncCircuitBreakerPolicy.CircuitState);
     public int CurrentRetryCount { get; private set; }
     public int CurrentCircuitBreakerOpenCount { get; private set; }
-    public ResiliencePolicyOptions ResilienceConfig { get; private set; }
+    public ResiliencePolicyOptions ResilienceConfig { get; private set; } = null!;
 
     // Constructors
     protected ResiliencePolicyBase()

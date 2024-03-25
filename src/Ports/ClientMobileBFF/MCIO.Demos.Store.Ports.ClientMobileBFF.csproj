@@ -35,6 +35,8 @@
 		<ProjectReference Include="..\..\BuildingBlock\Core\MCIO.Demos.Store.BuildingBlock.Core.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\Grpc.DependencyInjection\MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection.csproj" />
 		<ProjectReference Include="..\..\BuildingBlock\WebApi\MCIO.Demos.Store.BuildingBlock.WebApi.csproj" />
+		<ProjectReference Include="..\..\BuildingBlock\Resilience\MCIO.Demos.Store.BuildingBlock.Resilience.csproj" />
+		<ProjectReference Include="..\..\Core\WebApi\MCIO.Demos.Store.Core.WebApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

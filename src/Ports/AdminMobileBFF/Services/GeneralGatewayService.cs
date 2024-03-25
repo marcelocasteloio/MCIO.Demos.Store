@@ -1,5 +1,5 @@
 ﻿using MCIO.Core.ExecutionInfo;
-using MCIO.Demos.Store.Ports.AdminMobileBFF.Adapters;
+using MCIO.Demos.Store.Ports.AdminMobileBFF.Factories;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
 using MCIO.Observability.Abstractions;
@@ -92,7 +92,10 @@ public class GeneralGatewayService
                             await _gatewayPingServiceClient.PingAsync(
                                 request: new Commom.Protos.V1.PingRequest
                                 {
-                                    ExecutionInfo = ExecutionInfoAdapter.Adapt(executionInfo)
+                                    RequestHeader = new Commom.Protos.V1.RequestHeader
+                                    {
+                                        ExecutionInfo = ExecutionInfoFactory.Create(executionInfo)
+                                    }
                                 },
                                 cancellationToken: cancellationToken
                             )

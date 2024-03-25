@@ -1,9 +1,9 @@
 ﻿using Grpc.Core;
 using System.Reflection;
 using MCIO.Demos.Store.Commom.Protos.V1;
-using MCIO.Demos.Store.Ports.AdminWebBFF.Protos.V1;
 using MCIO.Observability.Abstractions;
-using MCIO.Demos.Store.Ports.AdminWebBFF.Adapters;
+using MCIO.Demos.Store.Ports.AdminWebBFF.Protos.V1;
+using MCIO.Demos.Store.Ports.AdminWebBFF.Factories;
 
 namespace MCIO.Demos.Store.Ports.AdminWebBFF.GrpcServices;
 
@@ -31,7 +31,7 @@ public class PingGrpcService
     // Public Methods
     public override async Task<PingReply> Ping(PingRequest request, ServerCallContext context)
     {
-        var executionInfo = ExecutionInfoAdapter.Adapt(request.ExecutionInfo)!.Value;
+        var executionInfo = ExecutionInfoFactory.Create(request.RequestHeader.ExecutionInfo)!.Value;
 
         return await _traceManager.StartInternalActivityAsync(
             name: PING_TRACE_NAME,
@@ -39,14 +39,17 @@ public class PingGrpcService
             input: request,
             handler: async (activity, executionInfo, input, cancellationToken) =>
             {
-                var reply = new PingReply();
+                var reply = new PingReply()
+                {
+                    ReplyHeader = new ReplyHeader()
+                };
 
                 var gatewayPingReply = await _gatewayPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken);
 
-                foreach (var replyMessage in gatewayPingReply.ReplyMessageCollection)
-                    reply.ReplyMessageCollection.Add(replyMessage);
+                foreach (var replyMessage in gatewayPingReply.ReplyHeader.ReplyMessageCollection)
+                    reply.ReplyHeader.ReplyMessageCollection.Add(replyMessage);
 
-                reply.ReplyMessageCollection.Add(
+                reply.ReplyHeader.ReplyMessageCollection.Add(
                     new ReplyMessage
                     {
                         Type = ReplyMessageType.Information,

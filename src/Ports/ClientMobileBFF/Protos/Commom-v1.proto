@@ -5,31 +5,46 @@ option csharp_namespace = "MCIO.Demos.Store.Commom.Protos.V1";
 package MCIO.Demos.Store.Commom.Protos.V1;
 
 message PingRequest {
-  ExecutionInfo executionInfo = 1;
+  RequestHeader requestHeader = 1;
 }
 message PingReply {
-	repeated ReplyMessage replyMessageCollection = 1;
+  ReplyHeader replyHeader = 1;
 }
 
 // Request
+message RequestHeader {
+  ExecutionInfo executionInfo = 1;
+}
+
 message ExecutionInfo {
   string correlationId = 1;
   string tenantCode = 2;
   string user = 3;
   string origin = 4;
+  string acceptedLanguage = 5;
 }
 
 // Reply
+message ReplyHeader {
+  ReplyResultType replyResultType = 1;
+  repeated ReplyMessage replyMessageCollection = 2;
+}
 message ReplyMessage {
   ReplyMessageType type = 1;
   string code = 2;
   string description = 3;
 }
 
+enum ReplyResultType {
+  ReplyResultType_Undefinied = 0;
+  ReplyResultType_Success  = 1;
+  ReplyResultType_Partial = 2;
+  ReplyResultType_Error = 3;
+}
 enum ReplyMessageType {
-  Undefinied = 0;
-  Information  = 1;
-  Success = 2;
-  Warning = 3;
-  Error = 4;
+  ReplyMessageType_Undefinied = 0;
+  ReplyMessageType_Information  = 1;
+  ReplyMessageType_Success = 2;
+  ReplyMessageType_Warning = 3;
+  ReplyMessageType_Error = 4;
 }

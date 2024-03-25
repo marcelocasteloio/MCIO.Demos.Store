@@ -7,14 +7,16 @@ using System.Text.Json;
 //using var testChannel = GrpcChannel.ForAddress(testUrl);
 //var testOrigin = "test";
 
-//var testPingRequest = new PingRequest
+//var testPingRequest = new PingRequest()
 //{
-//    ExecutionInfo = new ExecutionInfo
-//    {
-//        CorrelationId = Guid.NewGuid().ToString(),
-//        Origin = testOrigin,
-//        TenantCode = Guid.NewGuid().ToString(),
-//        User = testOrigin
+//    RequestHeader = new RequestHeader(){
+//        ExecutionInfo = new ExecutionInfo
+//        {
+//            CorrelationId = Guid.NewGuid().ToString(),
+//            Origin = testOrigin,
+//            TenantCode = Guid.NewGuid().ToString(),
+//            User = testOrigin
+//        }
 //    }
 //};
 //var testClient = new MCIO.Demos.Store.Ports.AdminMobileBFF.Protos.V1.PingService.PingServiceClient(testChannel);
@@ -55,11 +57,15 @@ var origin = Assembly.GetExecutingAssembly().GetName().Name;
 
 var pingRequest = new PingRequest
 {
-    ExecutionInfo = new ExecutionInfo { 
-        CorrelationId = Guid.NewGuid().ToString(),
-        Origin = origin,
-        TenantCode = Guid.NewGuid().ToString(),
-        User = origin
+    RequestHeader = new RequestHeader
+    {
+        ExecutionInfo = new ExecutionInfo
+        {
+            CorrelationId = Guid.NewGuid().ToString(),
+            Origin = origin,
+            TenantCode = Guid.NewGuid().ToString(),
+            User = origin
+        }
     }
 };
 

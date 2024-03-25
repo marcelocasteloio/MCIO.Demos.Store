@@ -25,6 +25,8 @@ using MCIO.Demos.Store.Ports.ClientMobileBFF.Services.Interfaces;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
+using MCIO.Demos.Store.Ports.ClientMobileBFF.ResiliencePolicies.Interfaces;
+using MCIO.Demos.Store.Ports.ClientMobileBFF.ResiliencePolicies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -189,6 +191,10 @@ builder.Services.AddGrpc(options =>
 builder.Services.RegisterGrpcClient<MCIO.Demos.Store.Gateways.General.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.GeneralGateway
 );
+
+// Resilience Policies
+builder.Services.AddSingleton<IGeneralGatewayPingHttpOperationResiliencePolicy, GeneralGatewayPingHttpOperationResiliencePolicy>();
+builder.Services.AddSingleton<IGeneralGatewayPingGrpcOperationResiliencePolicy, GeneralGatewayPingGrpcOperationResiliencePolicy>();
 
 #endregion [ Dependency Injection ]
 

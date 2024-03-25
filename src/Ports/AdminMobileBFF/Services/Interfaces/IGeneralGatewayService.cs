@@ -5,6 +5,6 @@ namespace MCIO.Demos.Store.Ports.AdminMobileBFF.Services.Interfaces;
 
 public interface IGeneralGatewayService
 {
-    Task<OutputEnvelop<HttpResponseMessage?>> PingHttpAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
-    Task<OutputEnvelop<PingReply?>> PingGrpcAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
+    Task<OutputEnvelop<HttpResponseMessage?>> PingHttpAsync(MCIO.Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
+    Task<OutputEnvelop<PingReply?>> PingGrpcAsync(MCIO.Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
 }

@@ -25,10 +25,10 @@ using MCIO.Demos.Store.Identity.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using MCIO.Demos.Store.BuildingBlock.WebApi.Swagger;
 using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
+using MCIO.Demos.Store.Core.WebApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 

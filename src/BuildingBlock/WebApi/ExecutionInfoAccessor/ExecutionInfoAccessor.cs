@@ -1,7 +1,6 @@
 ﻿using MCIO.Core.TenantInfo;
 using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor.Interfaces;
 using MCIO.OutputEnvelop;
-using System.Text;
 
 namespace MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
 public class ExecutionInfoAccessor
