@@ -69,57 +69,28 @@ public class PingGrpcService
 
                 var replyCollection = new List<PingReply>();
 
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Analytics start"));
-                replyCollection.Add(await _analyticsPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Analytics end"));
+                var taskCollection = new Task<PingReply>[] { 
+                    PingAnalyticsAsync(activity, request, cancellationToken),
+                    PingBasketAsync(activity, request, cancellationToken),
+                    PingCalendarAsync(activity, request, cancellationToken),
+                    PingCatalogAsync(activity, request, cancellationToken),
+                    PingCustomerAsync(activity, request, cancellationToken),
+                    PingDeliveryAsync(activity, request, cancellationToken),
+                    PingIdentityAsync(activity, request, cancellationToken),
+                    PingNotificationAsync(activity, request, cancellationToken),
+                    PingOrderAsync(activity, request, cancellationToken),
+                    PingPaymentAsync(activity, request, cancellationToken),
+                    PingPricingAsync(activity, request, cancellationToken),
+                    PingProductAsync(activity, request, cancellationToken),
+                };
 
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Basket start"));
-                replyCollection.Add(await _basketPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Basket end"));
+                await Task.WhenAll(taskCollection);
 
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Calendar start"));
-                replyCollection.Add(await _calendarPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Calendar end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Catalog start"));
-                replyCollection.Add(await _catalogPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Catalog end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Customer start"));
-                replyCollection.Add(await _customerPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Customer end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Delivery start"));
-                replyCollection.Add(await _deliveryPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Delivery end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Identity start"));
-                replyCollection.Add(await _identityPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Identity end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Notification start"));
-                replyCollection.Add(await _notificationPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Notification end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Order start"));
-                replyCollection.Add(await _orderPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Order end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Payment start"));
-                replyCollection.Add(await _paymentPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Payment end"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Pricing start"));
-                replyCollection.Add(await _pricingPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Pricing start"));
-
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Product start"));
-                replyCollection.Add(await _productPingServiceClient.PingAsync(request, cancellationToken: context.CancellationToken));
-                activity.AddEvent(new System.Diagnostics.ActivityEvent("Product end"));
-
-                foreach (var item in replyCollection)
+                foreach (var task in taskCollection)
                 {
-                    foreach (var replyMessage in item.ReplyHeader.ReplyMessageCollection)
+                    var pingReply = await task;
+
+                    foreach (var replyMessage in pingReply.ReplyHeader.ReplyMessageCollection)
                         reply.ReplyHeader.ReplyMessageCollection.Add(replyMessage);
                 }
 
@@ -135,5 +106,126 @@ public class PingGrpcService
             },
             context.CancellationToken
         );
+    }
+
+    private async Task<PingReply> PingAnalyticsAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Analytics start"));
+
+        var reply = await _analyticsPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Analytics end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingBasketAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Basket start"));
+
+        var reply = await _basketPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Basket end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingCalendarAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Calendar start"));
+
+        var reply = await _calendarPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Calendar end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingCatalogAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Catalog start"));
+
+        var reply = await _catalogPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Catalog end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingCustomerAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Customer start"));
+
+        var reply = await _customerPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Customer end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingDeliveryAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Delivery start"));
+
+        var reply = await _deliveryPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Delivery end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingIdentityAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Identity start"));
+
+        var reply = await _identityPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Identity end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingNotificationAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Notification start"));
+
+        var reply = await _notificationPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Notification end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingOrderAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Order start"));
+
+        var reply = await _orderPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Order end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingPaymentAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Payment start"));
+
+        var reply = await _paymentPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Payment end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingPricingAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Pricing start"));
+
+        var reply = await _pricingPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Pricing end"));
+
+        return reply;
+    }
+    private async Task<PingReply> PingProductAsync(System.Diagnostics.Activity activity, PingRequest request, CancellationToken cancellationToken)
+    {
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Product start"));
+
+        var reply = await _productPingServiceClient.PingAsync(request, cancellationToken: cancellationToken);
+
+        activity.AddEvent(new System.Diagnostics.ActivityEvent("Product end"));
+
+        return reply;
     }
 }

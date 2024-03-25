@@ -16,7 +16,7 @@ public class GeneralGatewayPingGrpcOperationResiliencePolicy
             )
             .WithCustomRetryOptions(
                 retryMaxAttemptCount: 3,
-                retryAttemptWaitingTimeFunction: attempt => TimeSpan.FromSeconds(2 ^ attempt - 1)
+                retryAttemptWaitingTimeFunction: attempt => TimeSpan.FromSeconds(2 ^ (attempt - 1))
             )
             .WithCustomCircuitBreakerOptions(
                 circuitBreakerWaitingTimeFunction: () => TimeSpan.FromSeconds(30)

@@ -1,6 +1,16 @@
 ﻿using Asp.Versioning;
+using MCIO.Demos.Store.Gateways.General.Services.Analytics.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Basket.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Calendar.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Catalog.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Customer.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Delivery.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Notification.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Order.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Payment.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Pricing.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Product.V1.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCIO.Demos.Store.Gateways.General.Controllers.V1;
@@ -59,18 +69,18 @@ public class PingController
     public async Task<IActionResult> PingAsync(CancellationToken cancellationToken)
     {
         await Task.WhenAll(
-            _analyticsContextService.PingAsync(cancellationToken),
-            _basketContextService.PingAsync(cancellationToken),
-            _calendarContextService.PingAsync(cancellationToken),
-            _catalogContextService.PingAsync(cancellationToken),
-            _customerContextService.PingAsync(cancellationToken),
-            _deliveryContextService.PingAsync(cancellationToken),
-            _identityContextService.PingAsync(cancellationToken),
-            _notificationContextService.PingAsync(cancellationToken),
-            _orderContextService.PingAsync(cancellationToken),
-            _paymentContextService.PingAsync(cancellationToken),
-            _pricingContextService.PingAsync(cancellationToken),
-            _productContextService.PingAsync(cancellationToken)
+            _analyticsContextService.PingHttpAsync(cancellationToken),
+            _basketContextService.PingHttpAsync(cancellationToken),
+            _calendarContextService.PingHttpAsync(cancellationToken),
+            _catalogContextService.PingHttpAsync(cancellationToken),
+            _customerContextService.PingHttpAsync(cancellationToken),
+            _deliveryContextService.PingHttpAsync(cancellationToken),
+            _identityContextService.PingHttpAsync(cancellationToken),
+            _notificationContextService.PingHttpAsync(cancellationToken),
+            _orderContextService.PingHttpAsync(cancellationToken),
+            _paymentContextService.PingHttpAsync(cancellationToken),
+            _pricingContextService.PingHttpAsync(cancellationToken),
+            _productContextService.PingHttpAsync(cancellationToken)
         );
 
         return Ok();

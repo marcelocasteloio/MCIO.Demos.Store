@@ -57,11 +57,13 @@ public class IdentityContextService
             type: response.IsSuccessStatusCode ? OutputEnvelopType.Success : OutputEnvelopType.Error
         );
     }
-    public async Task PingAsync(CancellationToken cancellationToken)
+    public async Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(CancellationToken cancellationToken)
     {
         await _httpClient.GetAsync(
             requestUri: $"{_config.ExternalServices.HttpServiceCollection.IdentityContext.BaseUrl}/api/v1/ping",
             cancellationToken
         );
+
+        return OutputEnvelop.OutputEnvelop.CreateSuccess();
     }
 }
