@@ -1,7 +1,5 @@
 ﻿using MCIO.Demos.Store.BuildingBlock.Resilience.Abstractions.Models;
 using MCIO.Demos.Store.BuildingBlock.Resilience;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Payment.Interfaces;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Payment;
 using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Pricing.Interfaces;
 
 namespace MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Pricing;

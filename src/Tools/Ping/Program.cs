@@ -1,7 +1,6 @@
 ﻿using Grpc.Net.Client;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using System.Reflection;
-using System.Text.Json;
 
 //var testUrl = "http://localhost:6032";
 //using var testChannel = GrpcChannel.ForAddress(testUrl);

@@ -1,7 +1,5 @@
 ﻿using MCIO.Demos.Store.BuildingBlock.Resilience.Abstractions.Models;
 using MCIO.Demos.Store.BuildingBlock.Resilience;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Identity.Interfaces;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Identity;
 using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Notification.Interfaces;
 
 namespace MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Notification;

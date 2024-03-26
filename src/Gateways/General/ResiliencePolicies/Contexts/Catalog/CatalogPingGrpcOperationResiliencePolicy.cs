@@ -1,7 +1,5 @@
 ﻿using MCIO.Demos.Store.BuildingBlock.Resilience.Abstractions.Models;
 using MCIO.Demos.Store.BuildingBlock.Resilience;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Calendar.Interfaces;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Calendar;
 using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Catalog.Interfaces;
 
 namespace MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Catalog;

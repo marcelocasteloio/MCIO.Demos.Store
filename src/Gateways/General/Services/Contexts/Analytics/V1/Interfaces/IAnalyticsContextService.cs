@@ -4,6 +4,6 @@ namespace MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1.Inter
 
 public interface IAnalyticsContextService
 {
-    Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(CancellationToken cancellationToken);
+    Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
     Task<OutputEnvelop<Commom.Protos.V1.PingReply?>> PingGrpcAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
 }

@@ -1,11 +1,10 @@
-﻿using MCIO.Demos.Store.BuildingBlock.WebApi.Responses;
+﻿using Grpc.Net.ClientFactory;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Analytics.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1.Interfaces;
 using MCIO.Observability.Abstractions;
 using MCIO.OutputEnvelop;
-using System.Diagnostics;
-using System.Text.Json;
+using MCIO.Demos.Store.Gateways.General.Factories;
 
 namespace MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1;
 
@@ -16,19 +15,24 @@ public class AnalyticsContextService
     // Fields
     private static readonly string _pingHttpAsyncTraceName = $"{nameof(AnalyticsContextService)}.{nameof(PingHttpAsync)}";
     private static readonly string _pingGrpcAsyncTraceName = $"{nameof(AnalyticsContextService)}.{nameof(PingGrpcAsync)}";
+
     private readonly IAnalyticsPingGrpcOperationResiliencePolicy _analyticsPingGrpcOperationResiliencePolicy;
     private readonly IAnalyticsPingHttpOperationResiliencePolicy _analyticsPingHttpOperationResiliencePolicy;
 
+    private readonly Store.Analytics.WebApi.Protos.V1.PingService.PingServiceClient _analyticsPingServiceClient;
 
     // Constructors
     public AnalyticsContextService(
         ITraceManager traceManager,
         HttpClient httpClient,
+        GrpcClientFactory grpcClientFactory,
         Config.Config config,
         IAnalyticsPingGrpcOperationResiliencePolicy analyticsPingGrpcOperationResiliencePolicy,
         IAnalyticsPingHttpOperationResiliencePolicy analyticsPingHttpOperationResiliencePolicy
     ) : base(traceManager, httpClient, config)
     {
+        _analyticsPingServiceClient = grpcClientFactory.CreateClient<Store.Analytics.WebApi.Protos.V1.PingService.PingServiceClient>(name: typeof(Store.Analytics.WebApi.Protos.V1.PingService.PingServiceClient).FullName!);
+
         _analyticsPingGrpcOperationResiliencePolicy = analyticsPingGrpcOperationResiliencePolicy;
         _analyticsPingHttpOperationResiliencePolicy = analyticsPingHttpOperationResiliencePolicy;
     }
@@ -58,6 +62,26 @@ public class AnalyticsContextService
         CancellationToken cancellationToken
     )
     {
-        throw new NotImplementedException();
+        return ExecuteGrpcRequestWithReplyHeaderReturnAsync(
+            traceName: _pingGrpcAsyncTraceName,
+            executionInfo,
+            resiliencePolicy: _analyticsPingGrpcOperationResiliencePolicy,
+            handler: async cancellationToken =>
+            {
+                var pingReply = await _analyticsPingServiceClient.PingAsync(
+                    new PingRequest
+                    {
+                        RequestHeader = new RequestHeader
+                        {
+                            ExecutionInfo = ExecutionInfoFactory.Create(executionInfo),
+                        }
+                    },
+                    cancellationToken: cancellationToken
+                );
+
+                return (pingReply, pingReply.ReplyHeader);
+            },
+            cancellationToken
+        );
     }
 }

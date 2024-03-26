@@ -1,7 +1,5 @@
 ﻿using MCIO.Demos.Store.BuildingBlock.Resilience.Abstractions.Models;
 using MCIO.Demos.Store.BuildingBlock.Resilience;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Customer.Interfaces;
-using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Customer;
 using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Delivery.Interfaces;
 
 namespace MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Delivery;
