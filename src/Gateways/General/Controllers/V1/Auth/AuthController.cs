@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
-using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Models;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Identity.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Identity.V1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -76,28 +76,28 @@ await Parallel.ForAsync(
     body: async (i, cancellationToken) =>
     {
         Console.WriteLine(httpUrl1);
-        await httpClient.GetAsync(httpUrl1);
+        await httpClient.GetAsync(httpUrl1, cancellationToken);
 
         Console.WriteLine(httpUrl2);
-        await httpClient.GetAsync(httpUrl2);
+        await httpClient.GetAsync(httpUrl2, cancellationToken);
 
         Console.WriteLine(httpUrl3);
-        await httpClient.GetAsync(httpUrl3);
+        await httpClient.GetAsync(httpUrl3, cancellationToken);
 
         Console.WriteLine(httpUrl4);
-        await httpClient.GetAsync(httpUrl4);
+        await httpClient.GetAsync(httpUrl4, cancellationToken);
 
         Console.WriteLine(grpcUrl1);
-        await client1.PingAsync(pingRequest);
+        await client1.PingAsync(pingRequest, cancellationToken: cancellationToken);
 
         Console.WriteLine(grpcUrl2);
-        await client2.PingAsync(pingRequest);
+        await client2.PingAsync(pingRequest, cancellationToken: cancellationToken);
 
         Console.WriteLine(grpcUrl3);
-        await client3.PingAsync(pingRequest);
+        await client3.PingAsync(pingRequest, cancellationToken: cancellationToken);
 
         Console.WriteLine(grpcUrl4);
-        await client4.PingAsync(pingRequest);
+        await client4.PingAsync(pingRequest, cancellationToken: cancellationToken);
 
         Console.WriteLine("-------------------------");
     }

@@ -6,8 +6,6 @@ using MCIO.Demos.Store.BuildingBlock.WebApi.RouteTokenTransformer;
 using MCIO.Demos.Store.Gateways.General.Config;
 using MCIO.Demos.Store.Gateways.General.HealthCheck;
 using MCIO.Demos.Store.Gateways.General.Services;
-using MCIO.Demos.Store.Gateways.General.Services.Identity.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Identity.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.GrpcServices;
 using MCIO.Observability.Abstractions;
 using MCIO.Observability.OpenTelemetry;
@@ -29,28 +27,54 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
-using MCIO.Demos.Store.Gateways.General.Services.Analytics.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Basket.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Calendar.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Catalog.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Customer.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Delivery.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Notification.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Order.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Payment.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Pricing.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Product.V1.Interfaces;
-using MCIO.Demos.Store.Gateways.General.Services.Analytics.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Basket.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Calendar.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Catalog.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Customer.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Delivery.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Notification.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Order.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Payment.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Pricing.V1;
-using MCIO.Demos.Store.Gateways.General.Services.Product.V1;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Analytics.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Analytics;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Basket;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Basket.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Calendar;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Calendar.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Catalog;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Catalog.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Customer;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Customer.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Delivery.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Delivery;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Identity.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Identity;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Notification.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Notification;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Order.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Order;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Payment.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Payment;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Pricing.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Pricing;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Product.Interfaces;
+using MCIO.Demos.Store.Gateways.General.ResiliencePolicies.Contexts.Product;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Basket.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Calendar.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Catalog.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Basket.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Calendar.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Catalog.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Identity.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Customer.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Pricing.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Notification.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Payment.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Product.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Delivery.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Order.V1;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Identity.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Customer.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Pricing.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Notification.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Payment.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Product.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Delivery.V1.Interfaces;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Order.V1.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -312,6 +336,44 @@ builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Pricing.WebApi.Protos.
 builder.Services.RegisterNamedGrpcClient<MCIO.Demos.Store.Product.WebApi.Protos.V1.PingService.PingServiceClient>(
     grpcServiceConfig: config.ExternalServices.GrpcServiceCollection.ProductContext
 );
+
+// Resilience policies
+builder.Services.AddSingleton<IAnalyticsPingGrpcOperationResiliencePolicy, AnalyticsPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IAnalyticsPingHttpOperationResiliencePolicy, AnalyticsPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IBasketPingGrpcOperationResiliencePolicy, BasketPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IBasketPingHttpOperationResiliencePolicy, BasketPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<ICalendarPingGrpcOperationResiliencePolicy, CalendarPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<ICalendarPingHttpOperationResiliencePolicy, CalendarPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<ICatalogPingGrpcOperationResiliencePolicy, CatalogPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<ICatalogPingHttpOperationResiliencePolicy, CatalogPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<ICustomerPingGrpcOperationResiliencePolicy, CustomerPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<ICustomerPingHttpOperationResiliencePolicy, CustomerPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IDeliveryPingGrpcOperationResiliencePolicy, DeliveryPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IDeliveryPingHttpOperationResiliencePolicy, DeliveryPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IIdentityPingGrpcOperationResiliencePolicy, IdentityPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IIdentityPingHttpOperationResiliencePolicy, IdentityPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<INotificationPingGrpcOperationResiliencePolicy, NotificationPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<INotificationPingHttpOperationResiliencePolicy, NotificationPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IOrderPingGrpcOperationResiliencePolicy, OrderPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IOrderPingHttpOperationResiliencePolicy, OrderPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IPaymentPingGrpcOperationResiliencePolicy, PaymentPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IPaymentPingHttpOperationResiliencePolicy, PaymentPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IPricingPingGrpcOperationResiliencePolicy, PricingPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IPricingPingHttpOperationResiliencePolicy, PricingPingHttpOperationResiliencePolicy>();
+
+builder.Services.AddSingleton<IProductPingGrpcOperationResiliencePolicy, ProductPingGrpcOperationResiliencePolicy>();
+builder.Services.AddSingleton<IProductPingHttpOperationResiliencePolicy, ProductPingHttpOperationResiliencePolicy>();
+
 #endregion [ Dependency Injection ]
 
 var app = builder.Build();
