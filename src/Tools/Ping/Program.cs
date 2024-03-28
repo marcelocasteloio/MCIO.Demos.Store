@@ -70,7 +70,7 @@ var pingRequest = new PingRequest
 
 await Parallel.ForAsync(
     fromInclusive: 0,
-    toExclusive: 10,
+    toExclusive: 1,
     cancellationToken: CancellationToken.None,
     body: async (i, cancellationToken) =>
     {

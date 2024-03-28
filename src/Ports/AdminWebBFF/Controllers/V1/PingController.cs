@@ -12,6 +12,7 @@ namespace MCIO.Demos.Store.Ports.AdminWebBFF.Controllers.V1;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1")]
+[AllowAnonymous]
 public class PingController
     : CustomControllerBase
 {
@@ -36,7 +37,7 @@ public class PingController
     [AllowAnonymous]
     public Task<IActionResult> PingAsync(CancellationToken cancellationToken)
     {
-        return ProcessRequestAsync(
+        return ExecuteRequestAsync(
             handler: (executionInfo, activity, cancellationToken) =>
             {
                 return _generalGatewayService.PingHttpAsync(executionInfo, cancellationToken);

@@ -75,6 +75,7 @@ using MCIO.Demos.Store.Gateways.General.Services.Contexts.Payment.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Contexts.Product.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Contexts.Delivery.V1.Interfaces;
 using MCIO.Demos.Store.Gateways.General.Services.Contexts.Order.V1.Interfaces;
+using MCIO.Demos.Store.BuildingBlock.WebApi.ExecutionInfoAccessor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,9 +120,9 @@ builder.Services.AddSingleton(config);
 // Health check
 builder.Services
     .AddHealthChecks()
-    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_STARTUP_TAG })
-    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_READINESS_TAG })
-    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG });
+    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: [HealthCheckBase.HEALTH_CHECK_STARTUP_TAG])
+    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: [HealthCheckBase.HEALTH_CHECK_READINESS_TAG])
+    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: [HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG]);
 
 // Controllers
 builder.Services
@@ -290,6 +291,12 @@ builder.Services
             ClockSkew = TimeSpan.Zero
         };
     });
+
+// HttpContext Accessor
+builder.Services.AddHttpContextAccessor();
+
+// Execution Info Accessor
+builder.Services.AddExecutionInfoAccessor();
 
 // GrpcServices
 builder.Services.AddGrpc(options =>

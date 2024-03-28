@@ -5,6 +5,7 @@ using MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1.Interface
 using MCIO.Observability.Abstractions;
 using MCIO.OutputEnvelop;
 using MCIO.Demos.Store.Gateways.General.Factories;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Base;
 
 namespace MCIO.Demos.Store.Gateways.General.Services.Contexts.Analytics.V1;
 
@@ -38,7 +39,7 @@ public class AnalyticsContextService
     }
 
     // Public Methods
-    public Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(
+    public override Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(
         Core.ExecutionInfo.ExecutionInfo executionInfo,
         CancellationToken cancellationToken
     )
@@ -57,7 +58,7 @@ public class AnalyticsContextService
             cancellationToken
         );
     }
-    public Task<OutputEnvelop<PingReply?>> PingGrpcAsync(
+    public override Task<OutputEnvelop<PingReply?>> PingGrpcAsync(
         Core.ExecutionInfo.ExecutionInfo executionInfo,
         CancellationToken cancellationToken
     )

@@ -37,7 +37,49 @@ public class CustomControllerBase
     }
 
     // Protected Methods
-    protected async Task<IActionResult> ProcessRequestAsync<THandlerOutput>(
+    protected async Task<IActionResult> ExecuteRequestAsync(
+        Func<ExecutionInfo, Activity, CancellationToken, Task<OutputEnvelop.OutputEnvelop>> handler,
+        int successStatusCode,
+        int failStatusCode,
+        CancellationToken cancellationToken,
+        [CallerMemberName] string? caller = null
+    )
+    {
+        try
+        {
+            var executionInfo = ExecutionInfoAccessor.CreateRequiredExecutionInfo();
+
+            return await _traceManager.StartServerActivityAsync(
+                name: caller,
+                executionInfo: executionInfo,
+                handler: async (activity, executionInfo, cancellationToken) =>
+                {
+                    var outputEnvelop = await handler(executionInfo, activity, cancellationToken);
+
+                    return StatusCode(
+                        statusCode: outputEnvelop.IsSuccess
+                            ? successStatusCode
+                            : failStatusCode,
+                        value: ResponseBase.FromOutputEnvelop(outputEnvelop)
+                    );
+                },
+                cancellationToken
+            );
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, UNEXPECTED_ERROR_MESSAGE_CODE);
+
+            return StatusCode(
+                statusCode: UNEXPECTED_ERROR_STATUS_CODE,
+                value: OutputEnvelop.OutputEnvelop.CreateError(
+                    outputMessageCode: UNEXPECTED_ERROR_MESSAGE_CODE,
+                    outputMessageDescription: ex.Message
+                )
+            );
+        }
+    }
+    protected async Task<IActionResult> ExecuteRequestAsync<THandlerOutput>(
         Func<ExecutionInfo, Activity, CancellationToken, Task<OutputEnvelop<THandlerOutput?>>> handler,
         int successStatusCode,
         int failStatusCode,

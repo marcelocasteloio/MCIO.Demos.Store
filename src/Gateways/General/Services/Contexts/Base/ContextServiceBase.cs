@@ -2,12 +2,15 @@
 using MCIO.Demos.Store.BuildingBlock.WebApi.Responses;
 using MCIO.Demos.Store.Commom.Protos.V1;
 using MCIO.Demos.Store.Gateways.General.Factories;
+using MCIO.Demos.Store.Gateways.General.Services.Contexts.Base.Interfaces;
 using MCIO.Observability.Abstractions;
+using MCIO.OutputEnvelop;
 using System.Text.Json;
 
-namespace MCIO.Demos.Store.Gateways.General.Services.Contexts;
+namespace MCIO.Demos.Store.Gateways.General.Services.Contexts.Base;
 
 public abstract class ContextServiceBase
+    : IContextService
 {
     // Properties
     protected ITraceManager TraceManager { get; }
@@ -25,6 +28,10 @@ public abstract class ContextServiceBase
         HttpClient = httpClient;
         Config = config;
     }
+
+    // Public Methods
+    public abstract Task<OutputEnvelop.OutputEnvelop> PingHttpAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
+    public abstract Task<OutputEnvelop<PingReply?>> PingGrpcAsync(Core.ExecutionInfo.ExecutionInfo executionInfo, CancellationToken cancellationToken);
 
     // Protected Methods
     protected Task<OutputEnvelop.OutputEnvelop> ExecuteHttpRequestWithResponseBaseReturnAsync(

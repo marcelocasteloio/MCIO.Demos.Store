@@ -72,9 +72,9 @@ builder.Services.AddSingleton(config);
 // Health check
 builder.Services
     .AddHealthChecks()
-    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_STARTUP_TAG })
-    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_READINESS_TAG })
-    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG });
+    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: [HealthCheckBase.HEALTH_CHECK_STARTUP_TAG])
+    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: [HealthCheckBase.HEALTH_CHECK_READINESS_TAG])
+    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: [HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG]);
 
 // Controllers
 builder.Services

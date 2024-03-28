@@ -27,6 +27,7 @@ using System.Net;
 using MCIO.Demos.Store.BuildingBlock.Grpc.DependencyInjection;
 using MCIO.Demos.Store.Ports.ClientWebBFF.ResiliencePolicies.Interfaces;
 using MCIO.Demos.Store.Ports.ClientWebBFF.ResiliencePolicies;
+using MCIO.Demos.Store.Core.WebApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,9 +71,9 @@ builder.Services.AddSingleton(config);
 // Health check
 builder.Services
     .AddHealthChecks()
-    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_STARTUP_TAG })
-    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_READINESS_TAG })
-    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: new[] { HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG });
+    .AddCheck<Startup>(config.HealthCheck.StartupPath, tags: [HealthCheckBase.HEALTH_CHECK_STARTUP_TAG])
+    .AddCheck<Readiness>(config.HealthCheck.ReadinessPath, tags: [HealthCheckBase.HEALTH_CHECK_READINESS_TAG])
+    .AddCheck<Liveness>(config.HealthCheck.LivenessPath, tags: [HealthCheckBase.HEALTH_CHECK_LIVENESS_TAG]);
 
 // Controllers
 builder.Services
@@ -121,6 +122,37 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://www.linkedin.com/company/marcelocasteloio")
         }
     });
+
+    options.OperationFilter<AddRequiredHeaderParameterOperationFilter>();
+
+    options.AddSecurityDefinition(
+        name: "Bearer",
+        securityScheme: new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        }
+    );
+    options.AddSecurityRequirement(
+        securityRequirement: new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        }
+    );
 });
 
 // Routing
